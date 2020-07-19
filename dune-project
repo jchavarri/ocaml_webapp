@@ -19,7 +19,7 @@
  (depends
   ;; General system dependencies
   (dune (>= 2))
-  (ocaml (>= 4.08.0))
+  (ocaml (>= 4.10.0))
 
   ;; Web toolkit
   (opium (>= 0.17.1))
