@@ -11,7 +11,7 @@ doc: "https://github.com/jchavarri/ocaml_webapp"
 bug-reports: "https://github.com/jchavarri/ocaml_webapp/issues"
 depends: [
   "dune" {>= "2"}
-  "ocaml" {>= "4.08.0"}
+  "ocaml" {>= "4.10.0"}
   "opium" {>= "0.17.1"}
   "yojson" {>= "1.7.0"}
   "ppx_yojson_conv" {>= "0.14.0"}

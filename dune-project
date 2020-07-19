@@ -6,7 +6,7 @@
 
 (authors "Javier Chávarri")
 (license MIT)
-(source (uri "git@github.com:jchavarri/ocaml_webapp.git"))
+(source (uri "git+https://github.com/jchavarri/ocaml_webapp.git"))
 (maintainers "javier.chavarri@gmail.com")
 (homepage "https://github.com/jchavarri/ocaml_webapp")
 (bug_reports "https://github.com/jchavarri/ocaml_webapp/issues")

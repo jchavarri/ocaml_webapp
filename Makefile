@@ -2,7 +2,11 @@ project_name = ocaml_webapp
 
 opam_file = $(project_name).opam
 
-.PHONY: deps run run-debug migrate rollback
+.PHONY: dev-switch deps run run-debug
+
+# Create a local opam switch
+create-switch:
+	opam switch create . 4.10.0 --deps-only
 
 # Alis to update the opam file and install the needed deps
 deps: $(opam_file)
