@@ -1,0 +1,9 @@
+_build*
+.vscode*
+.merlin
+README.md
+ocaml_webapp.install
+*.swp
+_opam
+Dockerfile
+.dockerignore
