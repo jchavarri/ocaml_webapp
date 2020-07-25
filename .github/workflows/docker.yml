@@ -50,5 +50,7 @@ jobs:
         run: docker push registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/web
       - name: Release image
         if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+        env: 
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
         run: heroku container:release web --app ${{ secrets.HEROKU_APP_NAME }}
 
