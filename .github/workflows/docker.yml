@@ -39,6 +39,7 @@ jobs:
         run: docker push $CACHE_IMAGE:stage
   deploy:
     name: Deploy to Heroku
+    runs-on: ubuntu-latest
     needs: build
     if: github.event_name == 'push' && github.ref == 'refs/heads/master'
     steps:
