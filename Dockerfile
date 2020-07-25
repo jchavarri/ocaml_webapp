@@ -1,11 +1,11 @@
 FROM ocaml/opam2:alpine-3.12
 
+# Install dependencies
+RUN apk update && apk add --no-cache m4
+
 WORKDIR ocaml_webapp
 
-# Install dependencies
-RUN sudo apk update
-RUN sudo apk add m4
-ADD ocaml_webapp.opam .
+COPY ocaml_webapp.opam .
 RUN sudo chown -R opam:nogroup ocaml_webapp.opam && \
     opam install . --deps-only
 
@@ -13,7 +13,7 @@ RUN sudo chown -R opam:nogroup ocaml_webapp.opam && \
 # without it the `dune build` command will fail with
 # permission errors.
 # We also need to take note of the dependencies from depext.
-ADD . .
+COPY . .
 RUN sudo chown -R opam:nogroup . && \
     opam exec dune build && \
     opam depext -ln ocaml_webapp | egrep -o "\-\s.*" | sed "s/- //" > depexts
