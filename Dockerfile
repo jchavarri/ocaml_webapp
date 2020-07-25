@@ -1,4 +1,4 @@
-FROM ocaml/opam2:alpine-3.12
+FROM ocaml/opam2:alpine-3.12 as base
 
 # Install dependencies
 RUN sudo apk update && sudo apk add --no-cache m4
@@ -19,13 +19,13 @@ RUN sudo chown -R opam:nogroup . && \
     opam depext -ln ocaml_webapp | egrep -o "\-\s.*" | sed "s/- //" > depexts
     
 # Let's create the production image!
-FROM alpine
+FROM alpine as stage
 WORKDIR /app
-COPY --from=0 /home/opam/opam-repository/ocaml_webapp/_build/default/bin/main.exe ocaml_webapp.exe
+COPY --from=base /home/opam/opam-repository/ocaml_webapp/_build/default/bin/main.exe ocaml_webapp.exe
 
 # Don't forget to install the dependencies, noted from
 # the previous build.
-COPY --from=0 /home/opam/opam-repository/ocaml_webapp/depexts depexts
+COPY --from=base /home/opam/opam-repository/ocaml_webapp/depexts depexts
 RUN cat depexts | xargs apk --update add && rm -rf /var/cache/apk/*
 
 CMD ./ocaml_webapp.exe --port=$PORT

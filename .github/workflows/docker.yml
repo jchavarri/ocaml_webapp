@@ -1,0 +1,39 @@
+name: Docker Build
+
+on: [push]
+
+env:
+  CACHE_IMAGE: jchavarri/ocaml_webapp
+  DOCKER_BUILDKIT: 1
+
+jobs:
+  build:
+    name: Build Docker Image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout master
+        uses: actions/checkout@v1
+      - name: Log in to docker hub
+        run: docker login -u ${{ secrets.REGISTRY_USER }} -p ${{ secrets.REGISTRY_PASS }}
+      - name: Build base from dockerfile
+        run: |
+          docker build \
+            --target base \
+            --cache-from $CACHE_IMAGE:base \
+            --tag $CACHE_IMAGE:base \
+            --file ./Dockerfile \
+            --build-arg BUILDKIT_INLINE_CACHE=1 \
+            "."
+      - name: Build stage from dockerfile
+        run: |
+          docker build \
+            --cache-from $CACHE_IMAGE:base \
+            --cache-from $CACHE_IMAGE:stage \
+            --tag $CACHE_IMAGE:stage \
+            --file ./Dockerfile \
+            --build-arg BUILDKIT_INLINE_CACHE=1 \
+            "."
+      - name: Push base image to docker hub
+        run: docker push $CACHE_IMAGE:base
+      - name: Push stage image to docker hub
+        run: docker push $CACHE_IMAGE:stage
