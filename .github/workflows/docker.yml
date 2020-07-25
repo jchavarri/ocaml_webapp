@@ -44,7 +44,7 @@ jobs:
     steps:
       - name: Login to Heroku Container registry
         env: 
-        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
         run: heroku container:login 
       - name: Tag image
         run: docker tag jchavarri/ocaml_webapp:stage registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/web
