@@ -1,7 +1,7 @@
 FROM ocaml/opam2:alpine-3.12
 
 # Install dependencies
-RUN apk update && apk add --no-cache m4
+RUN sudo apk update && sudo apk add --no-cache m4
 
 WORKDIR ocaml_webapp
 
