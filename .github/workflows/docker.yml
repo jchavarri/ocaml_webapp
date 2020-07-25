@@ -37,3 +37,19 @@ jobs:
         run: docker push $CACHE_IMAGE:base
       - name: Push stage image to docker hub
         run: docker push $CACHE_IMAGE:stage
+  deploy:
+    name: Deploy to Heroku
+    needs: build
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+    steps:
+      - name: Login to Heroku Container registry
+        env: 
+        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        run: heroku container:login 
+      - name: Tag image
+        run: docker tag jchavarri/ocaml_webapp:stage registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/web
+      - name: Push image
+        run: docker push registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/web
+      - name: Release image
+        run: heroku container:release web --app ${{ secrets.HEROKU_APP_NAME }}
+
