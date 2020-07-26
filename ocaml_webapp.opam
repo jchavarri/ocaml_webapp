@@ -13,10 +13,6 @@ depends: [
   "dune" {>= "2"}
   "ocaml" {>= "4.10.0"}
   "postgresql" {>= "4.6.0"}
-  "caqti" {>= "1.2.1"}
-  "caqti-lwt" {>= "1.2.0"}
-  "caqti-driver-postgresql" {>= "1.2.1"}
-  "ppx_rapper" {>= "0.9.2"}
   "opium" {>= "0.17.1"}
   "yojson" {>= "1.7.0"}
   "ppx_yojson_conv" {>= "0.14.0"}
