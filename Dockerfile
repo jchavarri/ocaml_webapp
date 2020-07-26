@@ -1,12 +1,11 @@
 FROM ocaml/opam2:alpine-3.12 as base
 
-# Install dependencies
-RUN sudo apk update && sudo apk add --no-cache m4
-
 WORKDIR ocaml_webapp
 
+# Install dependencies
 COPY ocaml_webapp.opam .
-RUN sudo chown -R opam:nogroup ocaml_webapp.opam && \
+RUN opam pin add -yn ocaml_webapp . && \
+    opam depext ocaml_webapp && \
     opam install . --deps-only
 
 # Build the app! Note: The chown is somehow necessary, as
