@@ -12,6 +12,7 @@ bug-reports: "https://github.com/jchavarri/ocaml_webapp/issues"
 depends: [
   "dune" {>= "2"}
   "ocaml" {>= "4.10.0"}
+  "postgresql" {>= "4.6.0"}
   "caqti" {>= "1.2.1"}
   "caqti-lwt" {>= "1.2.0"}
   "caqti-driver-postgresql" {>= "1.2.1"}
