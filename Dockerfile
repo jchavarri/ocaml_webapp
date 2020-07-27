@@ -8,9 +8,13 @@ RUN opam pin add -yn ocaml_webapp . && \
     opam depext ocaml_webapp && \
     opam install . --deps-only
 
-# Build the app!
+# Build the app! Note: The chown is somehow necessary, as
+# without it the `dune build` command will fail with
+# permission errors.
+# We also need to take note of the dependencies from depext.
 COPY . .
-RUN opam exec dune build && \
+RUN sudo chown -R opam:nogroup . && \
+    opam exec dune build && \
     opam depext -ln ocaml_webapp | egrep -o "\-\s.*" | sed "s/- //" > depexts
     
 # Let's create the production image!
