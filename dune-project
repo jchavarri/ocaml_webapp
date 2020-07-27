@@ -21,6 +21,12 @@
   (dune (>= 2))
   (ocaml (>= 4.10.0))
 
+  ;; Database interface
+  (caqti (>= 1.2.1))
+  (caqti-lwt (>= 1.2.0))
+  (caqti-driver-postgresql (>= 1.2.1))
+  (ppx_rapper (>= 0.9.2))
+
   ;; Web toolkit
   (opium (>= 0.17.1))
 

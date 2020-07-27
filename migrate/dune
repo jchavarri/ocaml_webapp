@@ -1,0 +1,6 @@
+(executables
+ (names migrate rollback)
+ (public_names migrate_ocaml_webapp rollback_ocaml_webapp)
+ (libraries ocaml_webapp lwt)
+ (preprocess
+  (pps ppx_rapper)))

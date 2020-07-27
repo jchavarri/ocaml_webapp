@@ -7,3 +7,5 @@ ocaml_webapp.install
 _opam
 Dockerfile
 .dockerignore
+.ocamlformat
+docker.yml

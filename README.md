@@ -28,6 +28,12 @@ make run
 
 Open the browser and go to http://localhost:3000/.
 
+### Run databases locally
+
+```
+docker-compose -f docker-compose.dev.yml up -d
+```
+
 ### Deploying to Heroku
 
 Right now, the example allows to easily deploy the app to Heroku. Build times are longer than they should, but hopefully
