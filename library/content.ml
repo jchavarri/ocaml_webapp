@@ -8,17 +8,47 @@ let default_head =
     (title (txt "OCaml Webapp Tutorial"))
     [
       meta ~a:[ a_charset "UTF-8" ] ();
+      link ~rel:[ `Icon ]
+        ~a:[ a_mime_type "image/x-icon" ]
+        ~href:"/static/favicon.ico" ();
       link ~rel:[ `Stylesheet ] ~href:"/static/style.css" ();
     ]
 
 (** The basic page layout, emitted as an [`Html string] which Opium can use as a
     response *)
-let basic_page content =
+let basic_page ?payload content =
   let raw_html =
     let open Html in
-    html default_head (body content) |> Format.asprintf "%a" (Html.pp ())
+    let content_container =
+      [
+        div ~a:[ a_id "root" ] content;
+        script ~a:[ a_src (Xml.uri_of_string "/static/index.js") ] (txt "");
+      ]
+    in
+    let body_children =
+      match payload with
+      | Some p -> p :: content_container
+      | None -> content_container
+    in
+    html default_head (body body_children) |> Format.asprintf "%a" (Html.pp ())
   in
   `Html raw_html
+
+let page_with_payload payload f =
+  let open Html in
+  basic_page
+    ~payload:
+      (script
+         ~a:[ a_id "page_payload"; a_mime_type "application/json" ]
+         (* todo: use atd to serialize payload *)
+         (txt
+            "{\r\n\
+            \  \"author\" : \"Hey\";\r\n\
+            \  \"excerpt\" : \"one excerpt\";\r\n\
+            \  \"source\" : \"sdfdsf\";\r\n\
+            \  \"page\" : 2;\r\n\
+             }"))
+    (f payload)
 
 (** Short hand for link formatting *)
 let hyper_link name addr = Html.(a ~a:[ a_href addr ] [ txt name ])
@@ -95,25 +125,12 @@ let add_excerpt_page =
              ]);
       ]
 
-let excerpt_elt (e : Excerpt.t) =
-  let page =
-    match e.page with
-    | None -> ""
-    | Some p -> Printf.sprintf ", %s" p
-  in
-  Html.(
-    blockquote
-      ~a:[ a_class [ "excerpt" ] ]
-      [
-        p [ txt e.excerpt ];
-        p [ txt (Printf.sprintf "-- %s (%s%s)" e.author e.source page) ];
-      ])
+let excerpt_added_page (e : Shared.Excerpt_t.t) =
+  basic_page
+    Html.[ p [ txt "Added the following excerpt: " ]; Shared.Excerpt.make ~e ]
 
-let excerpt_added_page (e : Excerpt.t) =
-  basic_page Html.[ p [ txt "Added the following excerpt: " ]; excerpt_elt e ]
-
-let excerpts_listing_page (es : Excerpt.t list) =
-  basic_page Html.(h1 [ txt "Excerpts" ] :: List.map ~f:excerpt_elt es)
+let excerpts_listing_page (es : Shared.Excerpt_t.t list) =
+  page_with_payload es (fun es -> List.hd_exn (Shared.PageExcerpts.make ~es))
 
 let author_excerpts_link author =
   hyper_link author (Printf.sprintf "/excerpts/author/%s" author)

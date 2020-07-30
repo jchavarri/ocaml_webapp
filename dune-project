@@ -29,10 +29,12 @@
 
   ;; Web toolkit
   (opium (>= 0.17.1))
+  (reason (>= 3.6.0))
 
-  (yojson (>= 1.7.0))
-  (ppx_yojson_conv (>= 0.14.0))
-
+  ;; HTML generation
+  (tyxml (>= 4.4.0))
+  (tyxml-jsx (>= 4.4.0))
+  
   ;; Dev dependencies
   (ocamlformat :dev)
 ))

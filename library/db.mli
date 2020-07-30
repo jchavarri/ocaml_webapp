@@ -23,7 +23,7 @@ module Get : sig
   val excerpts_by_author
     :  string ->
     Request.t ->
-    (Excerpt.t list, string) Lwt_result.t
+    (Shared.Excerpt_t.t list, string) Lwt_result.t
 
   (** [authors req] is the [Ok authors] list of all the [authors] in the
       database, if it succeeds. *)
@@ -35,7 +35,7 @@ module Update : sig
 
   (** [add_excerpt excerpt req] is [Ok ()] if the new excerpt can be inserted
       into the database. *)
-  val add_excerpt : Excerpt.t -> Request.t -> (unit, string) Lwt_result.t
+  val add_excerpt : Shared.Excerpt_t.t -> Request.t -> (unit, string) Lwt_result.t
 end
 
 (** {{1} API for database migrations } *)
