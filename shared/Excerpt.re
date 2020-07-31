@@ -1,3 +1,4 @@
+open Bridge;
 
 let createElement = (~e: Excerpt_t.t, ()) => {
   let page =
@@ -6,14 +7,15 @@ let createElement = (~e: Excerpt_t.t, ()) => {
     | Some(p) => Printf.sprintf(", %s", p)
     };
 
-   <div className="content">
-    <p> {ReactBridge.string(e.excerpt)} </p>
-    <p> {ReactBridge.string(Printf.sprintf("-- %s (%s%s)", e.author, e.source, page))} </p>
-  </div>
+  <div className="content">
+    <p> {React.string(e.excerpt)} </p>
+    <p>
+      {React.string(Printf.sprintf("-- %s (%s%s)", e.author, e.source, page))}
+    </p>
+  </div>;
 };
 
 [@react.component]
 let make = (~e) => {
-  createElement(~e, ())
+  createElement(~e, ());
 };
-

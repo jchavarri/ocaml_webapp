@@ -1,6 +1,6 @@
 (library
  (name shared)
- (libraries reactBridge tyxml)
+ (libraries bridge tyxml)
  (preprocess (pps tyxml-jsx))
  (flags
   (:standard -open Tyxml)))
