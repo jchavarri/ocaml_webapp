@@ -4,14 +4,7 @@
   "keywords": ["ocaml", "reasonml", "opium", "tyxml"],
   "website": "https://ocaml-webapp.herokuapp.com/",
   "repository": "https://github.com/jchavarri/ocaml_webapp",
-  "success_url": "/welcome",
   "stack": "container",
-  "formation": {
-    "web": {
-      "quantity": 1,
-      "size": "standard-1x"
-    }
-  },
   "addons": [
     {
       "plan": "heroku-postgresql:hobby-dev",
