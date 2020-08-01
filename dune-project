@@ -30,8 +30,6 @@
   ;; Web toolkit
   (opium (>= 0.17.1))
 
-  (yojson (>= 1.7.0))
-
   ;; Dev dependencies
   (ocamlformat :dev)
 ))
