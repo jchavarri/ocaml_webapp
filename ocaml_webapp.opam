@@ -17,7 +17,6 @@ depends: [
   "caqti-driver-postgresql" {>= "1.2.1"}
   "ppx_rapper" {>= "0.9.2"}
   "opium" {>= "0.17.1"}
-  "yojson" {>= "1.7.0"}
   "ocamlformat" {dev}
 ]
 build: [
