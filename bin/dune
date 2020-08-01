@@ -1,6 +1,4 @@
 (executable
  (public_name ocaml_webapp)
  (name main)
- (preprocess
-  (pps ppx_yojson_conv))
  (libraries ocaml_webapp opium))

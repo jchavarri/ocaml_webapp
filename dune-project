@@ -31,7 +31,6 @@
   (opium (>= 0.17.1))
 
   (yojson (>= 1.7.0))
-  (ppx_yojson_conv (>= 0.14.0))
 
   ;; Dev dependencies
   (ocamlformat :dev)
