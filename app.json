@@ -1,0 +1,19 @@
+{
+  "name": "ocaml_webapp",
+  "description": "A minimal example of a lightweight webapp in OCaml.",
+  "keywords": ["ocaml", "reasonml", "opium", "tyxml"],
+  "website": "https://ocaml-webapp.herokuapp.com/",
+  "repository": "https://github.com/jchavarri/ocaml_webapp",
+  "stack": "container",
+  "addons": [
+    {
+      "plan": "heroku-postgresql:hobby-dev",
+      "options": {
+        "version": "12"
+      }
+    }
+  ],
+  "scripts": {
+    "postdeploy": "./migrate.exe"
+  }
+}
