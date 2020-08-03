@@ -14,6 +14,6 @@
     }
   ],
   "scripts": {
-    "postdeploy": "dune exec migrate_ocaml_webapp"
+    "postdeploy": "./migrate.exe"
   }
 }
