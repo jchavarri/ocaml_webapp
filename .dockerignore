@@ -9,3 +9,4 @@ Dockerfile
 .dockerignore
 .ocamlformat
 docker.yml
+node_modules
