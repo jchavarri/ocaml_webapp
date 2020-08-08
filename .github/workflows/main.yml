@@ -37,20 +37,3 @@ jobs:
         run: docker push $CACHE_IMAGE:base
       - name: Push stage image to docker hub
         run: docker push $CACHE_IMAGE:stage
-      - name: Login to Heroku Container registry
-        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
-        env: 
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: heroku container:login 
-      - name: Tag image
-        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
-        run: docker tag jchavarri/ocaml_webapp:stage registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/web
-      - name: Push image
-        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
-        run: docker push registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/web
-      - name: Release image
-        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
-        env: 
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: heroku container:release web --app ${{ secrets.HEROKU_APP_NAME }}
-

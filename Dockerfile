@@ -21,6 +21,7 @@ RUN sudo chown -R opam:nogroup . && \
 FROM alpine as stage
 WORKDIR /app
 COPY --from=base /ocaml_webapp/_build/default/bin/main.exe ocaml_webapp.exe
+COPY --from=base /ocaml_webapp/_build/default/migrate/migrate.exe migrate.exe
 
 # Don't forget to install the dependencies, noted from
 # the previous build.
