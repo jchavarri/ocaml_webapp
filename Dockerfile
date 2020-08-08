@@ -8,7 +8,7 @@ RUN opam pin add -yn ocaml_webapp . && \
     opam depext ocaml_webapp && \
     opam install . --deps-only
 
-# Build the app! Note: The chown is somehow necessary, as
+# Build the server app. Note: The chown is somehow necessary, as
 # without it the `dune build` command will fail with
 # permission errors.
 # We also need to take note of the dependencies from depext.
@@ -17,14 +17,13 @@ RUN sudo chown -R opam:nogroup . && \
     opam exec dune build && \
     opam depext -ln ocaml_webapp > depexts
 
-# This stage installs our modules
+# Build client app
 FROM node:12 as client
 WORKDIR /app
 COPY . ./
-# Don't install dev dependencies
 RUN yarn install && yarn build && yarn webpack:production
 
-# Let's create the production image!
+# Create production image
 FROM alpine as stage
 WORKDIR /app
 COPY --from=base /ocaml_webapp/_build/default/bin/main.exe ocaml_webapp.exe

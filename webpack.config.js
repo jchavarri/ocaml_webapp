@@ -10,7 +10,7 @@ module.exports = {
   devtool: "source-map",
   output: {
     path: outputDir,
-    filename: "Index.js"
+    filename: "index.js"
   },
   plugins: [
     new HtmlWebpackPlugin({
