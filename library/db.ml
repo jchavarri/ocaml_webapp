@@ -53,9 +53,9 @@ module Query = struct
     ('res, ([> Caqti_error.call_or_retrieve ] as 'err)) result Lwt.t
 
   let add_excerpt
-    : Caqti_lwt.connection -> Excerpt.t -> (unit, 'err) query_result
+    : Caqti_lwt.connection -> Shared.Excerpt_t.t -> (unit, 'err) query_result
     =
-    let open Excerpt in
+    let open Shared.Excerpt_t in
     [%rapper
       execute
         {sql|
@@ -66,9 +66,9 @@ module Query = struct
 
   let get_excerpts_by_author
     :  Caqti_lwt.connection -> author:string ->
-    (Excerpt.t list, 'err) query_result
+    (Shared.Excerpt_t.t list, 'err) query_result
     =
-    let open Excerpt in
+    let open Shared.Excerpt_t in
     [%rapper
       get_many
         {sql|
@@ -92,7 +92,7 @@ end
 (* Execute queries for fetching data *)
 module Get = struct
   let excerpts_by_author author
-    : Request.t -> (Excerpt.t list, string) Lwt_result.t
+    : Request.t -> (Shared.Excerpt_t.t list, string) Lwt_result.t
     =
     query_db (Query.get_excerpts_by_author ~author)
 

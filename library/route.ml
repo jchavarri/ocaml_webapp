@@ -40,7 +40,7 @@ let excerpt_of_form_data data =
     | "" -> None
     | p -> Some p
   in
-  Lwt.return Excerpt.{ author; excerpt; source; page }
+  Lwt.return Shared.Excerpt_t.{ author; excerpt; source; page }
 
 let post_excerpts_add =
   post "/excerpts/add" (fun req ->
