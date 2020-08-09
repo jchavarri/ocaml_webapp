@@ -26,8 +26,8 @@ RUN yarn install && yarn build && yarn webpack:production
 # Create production image
 FROM alpine as stage
 WORKDIR /app
-COPY --from=base /ocaml_webapp/_build/default/bin/main.exe ocaml_webapp.exe
-COPY --from=base /ocaml_webapp/_build/default/migrate/migrate.exe migrate.exe
+COPY --from=base /ocaml_webapp/_build/default/server/bin/main.exe ocaml_webapp.exe
+COPY --from=base /ocaml_webapp/_build/default/server/migrate/migrate.exe migrate.exe
 COPY --from=client /app/static static
 
 # Don't forget to install the dependencies, noted from
