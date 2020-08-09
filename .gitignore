@@ -1,12 +1,11 @@
 /_build/
 /_opam/
-.merlin
 /.vscode/
 .DS_Store
 .merlin
 .bsb.lock
 npm-debug.log
-/lib/bs/
+/lib/
 /node_modules/
 *.bs.js
-static/index.js*
+server/static/index.js*
