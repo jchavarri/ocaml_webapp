@@ -29,6 +29,7 @@
 
   ;; Web toolkit
   (opium (>= 0.17.1))
+  (routes (>= 0.8.0))
   (reason (>= 3.6.0))
 
   ;; HTML generation

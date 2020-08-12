@@ -35,7 +35,10 @@ module Update : sig
 
   (** [add_excerpt excerpt req] is [Ok ()] if the new excerpt can be inserted
       into the database. *)
-  val add_excerpt : Shared.Excerpt_t.t -> Request.t -> (unit, string) Lwt_result.t
+  val add_excerpt
+    :  Shared.Excerpt_t.t ->
+    Request.t ->
+    (unit, string) Lwt_result.t
 end
 
 (** {{1} API for database migrations } *)

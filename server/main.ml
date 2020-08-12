@@ -9,7 +9,7 @@ let app : Opium.App.t =
   |> App.cmd_name "Ocaml Webapp Tutorial"
   |> middleware static
   |> Db.middleware
-  |> Route.add_routes
+  |> middleware Route.m
 
 let log_level = Some Logs.Debug
 

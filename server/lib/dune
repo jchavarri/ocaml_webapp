@@ -1,5 +1,6 @@
 (library
  (name ocaml_webapp)
- (libraries shared core opium caqti caqti-driver-postgresql caqti-lwt tyxml lwt.unix)
+ (libraries shared core opium routes caqti caqti-driver-postgresql caqti-lwt
+   tyxml lwt.unix)
  (preprocess
   (pps ppx_rapper)))

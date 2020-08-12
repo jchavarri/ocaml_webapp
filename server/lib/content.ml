@@ -87,7 +87,7 @@ let hello_page lang =
     | _ ->
       "Language not supported :(\n\
        You can add a language via PR to \
-       https://gitlab.com/shonfeder/ocaml_webapp"
+       https://github.com/jchavarri/ocaml_webapp"
   in
   basic_page Html.[ p [ txt greeting ] ]
 
