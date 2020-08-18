@@ -25,7 +25,7 @@
   (caqti (>= 1.2.1))
   (caqti-lwt (>= 1.2.0))
   (caqti-driver-postgresql (>= 1.2.1))
-  (ppx_rapper (>= 0.9.2))
+  (ppx_rapper (and (>= 0.9.2) (< 2.0)))
 
   ;; Web toolkit
   (opium (>= 0.17.1))
