@@ -21,3 +21,32 @@ module Js = struct
     let setTimeout : (unit -> unit) -> int -> timeoutId = fun _ _ -> ()
   end
 end
+
+module Dom = struct
+  open Tyxml.Html
+
+  module Ul = struct let createElement ~children () = ul children end
+
+  module Form = struct
+    let createElement ~action ~form_method ~children () =
+      form ~a:[ a_action action; a_method form_method ] children
+  end
+
+  module Input = struct
+    let opt_concat f el list =
+      match el with
+      | None -> list
+      | Some el -> f el :: list
+
+    let createElement ~input_type ?name ?value () =
+      input
+        ~a:
+          ([ a_input_type input_type ]
+          |> opt_concat a_name name
+          |> opt_concat a_value value
+          )
+        ()
+  end
+
+  module P = struct let createElement ~children () = p children end
+end

@@ -1,39 +1,41 @@
 open Bridge;
+open Dom;
 
 [@react.component]
 let make = () => {
   let txtInput = name =>
     <>
-      <label for_=name>
+      <label htmlFor=name>
         {React.string(String.capitalize_ascii(name))}
       </label>
-      <input type_=`Text name />
+      <Input input_type=`Text name />
     </>;
 
   let excerptInput = {
     let name = "excerpt";
     <>
-      <label for_=name>
+      <label htmlFor=name>
         {React.string(String.capitalize_ascii(name))}
       </label>
       <textarea name> {React.string("")} </textarea>
     </>;
   };
 
-  let submit = <> <input type_=`Submit value="Submit" /> </>;
+  let submit = <> <Input input_type=`Submit value="Submit" /> </>;
 
   <>
-    {<form method=`Post action="/excerpts/add">
-       ...{List.map(
-         x => <p> ...x </p>,
-         [
-           txtInput("author"),
-           excerptInput,
-           txtInput("source"),
-           txtInput("page"),
-           submit,
-         ],
-       )}
-     </form>}
+    {<Form form_method=`Post action="/excerpts/add">
+       {List.map(
+          x => <P> x </P>,
+          [
+            txtInput("author"),
+            excerptInput,
+            txtInput("source"),
+            txtInput("page"),
+            submit,
+          ],
+        )
+        |> React.list}
+     </Form>}
   </>;
 };

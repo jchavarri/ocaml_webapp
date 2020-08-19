@@ -14,11 +14,9 @@ module AuthorExcerptsLink = {
 let make = (~authors) => {
   <>
     <h1> {React.string("Authors with excerpts")} </h1>
-    <ul>
-      ...{List.map(
-        author => <li> <AuthorExcerptsLink author /> </li>,
-        authors,
-      )}
-    </ul>
+    <Dom.Ul>
+      {List.map(author => <li> <AuthorExcerptsLink author /> </li>, authors)
+       |> React.list}
+    </Dom.Ul>
   </>;
 };
