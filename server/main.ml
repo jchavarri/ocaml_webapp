@@ -1,7 +1,7 @@
 open Opium.Std
 open Ocaml_webapp
 
-let static = Middleware.static ~local_path:"./static" ~uri_prefix:"/static" ()
+let static = Middleware.static ~local_path:"./server/static" ~uri_prefix:"/static" ()
 
 (** Build the Opium app  *)
 let app : Opium.App.t =

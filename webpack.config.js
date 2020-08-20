@@ -1,6 +1,6 @@
 const path = require("path")
 const HtmlWebpackPlugin = require("html-webpack-plugin")
-const outputDir = path.join(__dirname, "static/")
+const outputDir = path.join(__dirname, "server", "static")
 
 const isProd = process.env.NODE_ENV === "production"
 
