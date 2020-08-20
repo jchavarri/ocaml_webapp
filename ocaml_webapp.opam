@@ -19,8 +19,9 @@ depends: [
   "opium" {>= "0.17.1"}
   "routes" {>= "0.8.0"}
   "reason" {>= "3.6.0"}
-  "tyxml" {>= "4.4.0"}
-  "tyxml-jsx" {>= "4.4.0"}
+  "tyxml" {dev}
+  "tyxml-jsx" {dev}
+  "tyxml-syntax" {dev}
   "ocamlformat" {dev}
 ]
 build: [
@@ -38,3 +39,8 @@ build: [
   ]
 ]
 dev-repo: "git+https://github.com/jchavarri/ocaml_webapp.git"
+pin-depends: [
+  [ "tyxml.dev" "git+https://github.com/jchavarri/tyxml.git#reason-react" ]
+  [ "tyxml-jsx.dev" "git+https://github.com/jchavarri/tyxml.git#reason-react" ]
+  [ "tyxml-syntax.dev" "git+https://github.com/jchavarri/tyxml.git#reason-react" ]
+]
