@@ -29,11 +29,13 @@
 
   ;; Web toolkit
   (opium (>= 0.17.1))
+  (routes (>= 0.8.0))
   (reason (>= 3.6.0))
 
   ;; HTML generation
-  (tyxml (>= 4.4.0))
-  (tyxml-jsx (>= 4.4.0))
+  (tyxml :dev)
+  (tyxml-jsx :dev)
+  (tyxml-syntax :dev)
   
   ;; Dev dependencies
   (ocamlformat :dev)
