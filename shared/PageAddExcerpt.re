@@ -17,7 +17,7 @@ let make = () => {
       <label htmlFor=name>
         {React.string(String.capitalize_ascii(name))}
       </label>
-      <textarea name> {React.string("")} </textarea>
+      <Dom.Textarea name value="" onChange={e => Js.log(e)} />
     </>;
   };
 
@@ -25,8 +25,8 @@ let make = () => {
 
   <>
     {<Form form_method=`Post action="/excerpts/add">
-       {List.map(
-          x => <P> x </P>,
+       {List.mapi(
+          (_i, x) => <P key={string_of_int(_i)}> x </P>,
           [
             txtInput("author"),
             excerptInput,

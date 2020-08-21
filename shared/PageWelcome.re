@@ -6,11 +6,11 @@ let make = () => {
     <h1> {React.string("OCaml Webapp Tutorial")} </h1>
     <h2> {React.string("Hello")} </h2>
     <Dom.Ul>
-      {List.map(
-         x => <li> x </li>,
+      {List.mapi(
+         (_i, x) => <li key={string_of_int(_i)}> x </li>,
          [
            <Link url="/hello" txt="hiya" />,
-           <Link url="/hello/中文" txt="中文" />,
+           <Link url={j|/hello/中文|j} txt={j|中文|j} />,
            <Link url="/hello/Deutsch" txt="Deutsch" />,
            <Link url="/hello/English" txt="English" />,
          ],
@@ -19,8 +19,8 @@ let make = () => {
     </Dom.Ul>
     <h2> {React.string("Excerpts")} </h2>
     <Dom.Ul>
-      {List.map(
-         x => <li> x </li>,
+      {List.mapi(
+         (_i, x) => <li key={string_of_int(_i)}> x </li>,
          [
            <Link url="/excerpts/add" txt="Add Excerpt" />,
            <Link url="/excerpts" txt="Excerpts" />,
