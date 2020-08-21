@@ -1,6 +1,6 @@
 (library
  (name shared)
- (libraries bridge tyxml)
+ (libraries bridge routes tyxml)
  (preprocess
   (pps tyxml-jsx))
  (flags
