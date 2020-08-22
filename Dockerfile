@@ -18,12 +18,17 @@ RUN sudo chown -R opam:nogroup . && \
     opam depext -ln ocaml_webapp > depexts
 
 # Build client app
-FROM node:12-stretch
+FROM node:12-alpine-3.12 as client
 WORKDIR /app
 COPY . ./
 COPY --from=base /home/opam/.opam/4.10/bin/atdgen /usr/local/bin/atdgen
 RUN chmod +x /usr/local/bin/atdgen
-RUN yarn install && yarn build && yarn webpack:production
+RUN apk add --no-cache --virtual .gyp \
+        python2 \
+        make \
+        g++ \
+    && yarn install && yarn build && yarn webpack:production \
+    && apk del .gyp
 
 # Create production image
 FROM alpine as stage

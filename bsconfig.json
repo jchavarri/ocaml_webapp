@@ -6,11 +6,11 @@
   "generators": [
     {
       "name": "atd_t",
-      "command": "dirname=$$(dirname $in) && basename=$$(basename $in .atd) && opam exec -- atdgen -t $in -o $$dirname/gen/$$basename"
+      "command": "dirname=$$(dirname $in) && basename=$$(basename $in .atd) && atdgen -t $in -o $$dirname/gen/$$basename"
     },
     {
       "name": "atd_bs",
-      "command": "dirname=$$(dirname $in) && basename=$$(basename $in .atd) && opam exec -- atdgen -bs $in -o $$dirname/gen/$$basename"
+      "command": "dirname=$$(dirname $in) && basename=$$(basename $in .atd) && atdgen -bs $in -o $$dirname/gen/$$basename"
     }
   ],
   "sources": [
