@@ -64,4 +64,10 @@ module Dom = {
       <p> children </p>;
     };
   };
+  module Textarea = {
+    [@react.component]
+    let make = (~name, ~onChange, ~value) => {
+      <textarea name onChange value />;
+    };
+  };
 };

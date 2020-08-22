@@ -22,7 +22,7 @@ let basic_page ?payload content =
     let content_container =
       [
         div ~a:[ a_id "root" ] content;
-        script ~a:[ a_src (Xml.uri_of_string "/static/index.js") ] (txt "");
+        script ~a:[ a_src (Xml.uri_of_string "/static/Index.js") ] (txt "");
       ]
     in
     let body_children =
@@ -54,6 +54,8 @@ let welcome_page = basic_page (Shared.PageWelcome.make ())
 
 let hello_page lang = basic_page (Shared.PageHello.make ~lang)
 
+let hello_page_fallback = basic_page (Shared.PageHelloFallback.make ())
+
 let add_excerpt_page = basic_page (Shared.PageAddExcerpt.make ())
 
 let excerpt_added_page (e : Shared.Excerpt_t.t) =
@@ -68,3 +70,5 @@ let author_excerpts_page authors =
 let error_page err =
   basic_page
     Html.[ p [ txt (Printf.sprintf "Oh no! Something went wrong: %s" err) ] ]
+
+let not_found = basic_page (Shared.PageNotFound.make ())

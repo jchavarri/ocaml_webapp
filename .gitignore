@@ -8,4 +8,4 @@ npm-debug.log
 /lib/
 /node_modules/
 *.bs.js
-server/static/index.js*
+server/static/Index.js*

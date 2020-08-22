@@ -2,6 +2,11 @@
 # yarn lockfile v1
 
 
+"@anuragsoni/routes@^0.8.0":
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/@anuragsoni/routes/-/routes-0.8.0.tgz#36b0e75db5ccb78443db99d8e6227d05dadafeff"
+  integrity sha512-2rvAURfJjZdddK5/Xh14CdpxfmhFzejxXmDvH+7mzfB/KIxRVoYcS2FP6pb4ZB2vtXEG6jNcrtBNDvajNKFMDQ==
+
 "@types/glob@^7.1.1":
   version "7.1.3"
   resolved "https://registry.yarnpkg.com/@types/glob/-/glob-7.1.3.tgz#e6ba80f36b7daad2c685acd9266382e68985c183"

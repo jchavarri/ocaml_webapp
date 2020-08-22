@@ -15,7 +15,11 @@ let make = (~authors) => {
   <>
     <h1> {React.string("Authors with excerpts")} </h1>
     <Dom.Ul>
-      {List.map(author => <li> <AuthorExcerptsLink author /> </li>, authors)
+      {List.mapi(
+         (_i, author) =>
+           <li key={string_of_int(_i)}> <AuthorExcerptsLink author /> </li>,
+         authors,
+       )
        |> React.list}
     </Dom.Ul>
   </>;

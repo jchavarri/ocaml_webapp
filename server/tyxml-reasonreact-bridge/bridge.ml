@@ -49,4 +49,9 @@ module Dom = struct
   end
 
   module P = struct let createElement ~children () = p children end
+
+  module Textarea = struct
+    let createElement ~name ~value () =
+      textarea ~a:[ a_name name ] (Tyxml.Html.txt value)
+  end
 end

@@ -28,7 +28,7 @@ FROM alpine as stage
 WORKDIR /app
 COPY --from=base /ocaml_webapp/_build/default/server/main.exe ocaml_webapp.exe
 COPY --from=base /ocaml_webapp/_build/default/server/migrate/migrate.exe migrate.exe
-COPY --from=client /app/static static
+COPY --from=client /app/server/static server/static
 
 # Don't forget to install the dependencies, noted from
 # the previous build.

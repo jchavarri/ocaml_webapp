@@ -1,7 +1,14 @@
 open Bridge;
 
 let createElement = (~url, ~txt, ()) => {
-  <a href=url> {React.string(txt)} </a>;
+  <a
+    href=url
+    onClick={e => {
+      ReactEvent.Mouse.preventDefault(e);
+      ReasonReactRouter.push(url);
+    }}>
+    {React.string(txt)}
+  </a>;
 };
 
 [@react.component]
