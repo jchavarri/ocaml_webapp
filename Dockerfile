@@ -21,6 +21,7 @@ RUN sudo chown -R opam:nogroup . && \
 FROM node:12-alpine3.12 as client
 WORKDIR /app
 COPY package.json .
+COPY yarn.lock .
 RUN apk add --no-cache --virtual .gyp \
         python2 \
         make \
