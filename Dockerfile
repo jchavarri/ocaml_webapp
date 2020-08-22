@@ -7,7 +7,10 @@ USER root
 RUN apk add \
     --no-cache \
     nodejs \
-    yarn
+    yarn \
+    g++ \
+    make \
+    python
 USER opam
 
 # Install OCaml dependencies
