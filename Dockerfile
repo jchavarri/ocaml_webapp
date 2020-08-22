@@ -18,7 +18,7 @@ RUN sudo chown -R opam:nogroup . && \
     opam depext -ln ocaml_webapp > depexts
 
 # Build client app
-FROM node:12-alpine-3.12 as client
+FROM node:12-alpine3.12 as client
 WORKDIR /app
 COPY . ./
 COPY --from=base /home/opam/.opam/4.10/bin/atdgen /usr/local/bin/atdgen
