@@ -2,18 +2,7 @@ FROM ocaml/opam2:alpine-3.12-ocaml-4.10 as base
 
 WORKDIR /ocaml_webapp
 
-# Install alpine deps
-USER root
-RUN apk add \
-    --no-cache \
-    nodejs \
-    yarn \
-    g++ \
-    make \
-    python2
-USER opam
-
-# Install OCaml dependencies
+# Install dependencies
 COPY ocaml_webapp.opam .
 RUN opam pin add -yn ocaml_webapp . && \
     opam depext ocaml_webapp && \
@@ -29,6 +18,10 @@ RUN sudo chown -R opam:nogroup . && \
     opam depext -ln ocaml_webapp > depexts
 
 # Build client app
+FROM node:12 as client
+WORKDIR /app
+COPY . ./
+COPY --from=base /ocaml_webapp/_opam/bin/atdgen /usr/local/bin/atdgen
 RUN yarn install && yarn build && yarn webpack:production
 
 # Create production image
@@ -36,7 +29,7 @@ FROM alpine as stage
 WORKDIR /app
 COPY --from=base /ocaml_webapp/_build/default/server/main.exe ocaml_webapp.exe
 COPY --from=base /ocaml_webapp/_build/default/server/migrate/migrate.exe migrate.exe
-COPY --from=client /ocaml_webapp/server/static server/static
+COPY --from=client /app/server/static server/static
 
 # Don't forget to install the dependencies, noted from
 # the previous build.
