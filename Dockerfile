@@ -1,4 +1,4 @@
-FROM ocaml/opam2:alpine-3.12-ocaml-4.10 as base
+FROM ocaml/opam2:debian-9-ocaml-4.10 as base
 
 WORKDIR /ocaml_webapp
 
@@ -18,10 +18,11 @@ RUN sudo chown -R opam:nogroup . && \
     opam depext -ln ocaml_webapp > depexts
 
 # Build client app
-FROM node:12 as client
+FROM node:12-stretch
 WORKDIR /app
 COPY . ./
-COPY --from=base /ocaml_webapp/_opam/bin/atdgen /usr/local/bin/atdgen
+COPY --from=base /home/opam/.opam/4.10/bin/atdgen /usr/local/bin/atdgen
+RUN chmod +x /usr/local/bin/atdgen
 RUN yarn install && yarn build && yarn webpack:production
 
 # Create production image
