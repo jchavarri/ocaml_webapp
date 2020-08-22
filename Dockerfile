@@ -20,14 +20,17 @@ RUN sudo chown -R opam:nogroup . && \
 # Build client app
 FROM node:12-alpine3.12 as client
 WORKDIR /app
-COPY . ./
-COPY --from=base /home/opam/.opam/4.10/bin/atdgen /usr/local/bin/atdgen
-RUN chmod +x /usr/local/bin/atdgen
+COPY package.json .
 RUN apk add --no-cache --virtual .gyp \
         python2 \
         make \
         g++ \
-    && yarn install && yarn build && yarn webpack:production \
+    && yarn install
+
+COPY --from=base /home/opam/.opam/4.10/bin/atdgen /usr/local/bin/atdgen
+RUN chmod +x /usr/local/bin/atdgen
+COPY . .
+RUN yarn build && yarn webpack:production \
     && apk del .gyp
 
 # Create production image
