@@ -88,3 +88,5 @@ let create_middleware ~get_router ~post_router =
 let m =
   create_middleware ~get_router:(Routes.one_of get_routes)
     ~post_router:(Routes.one_of post_routes)
+
+let four_o_four = not_found (fun _req -> respond' @@ Content.not_found)

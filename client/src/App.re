@@ -41,7 +41,7 @@ let make = () => {
   switch (
     Routes.match'(router, ~target=Js.Global.decodeURIComponent(target))
   ) {
-  | None => <div> {React.string("Page not found")} </div>
+  | None => <PageNotFound />
   | Some(h) => h(target)
   };
 };

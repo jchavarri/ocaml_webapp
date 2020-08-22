@@ -70,3 +70,5 @@ let author_excerpts_page authors =
 let error_page err =
   basic_page
     Html.[ p [ txt (Printf.sprintf "Oh no! Something went wrong: %s" err) ] ]
+
+let not_found = basic_page (Shared.PageNotFound.make ())

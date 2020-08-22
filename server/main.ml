@@ -11,6 +11,7 @@ let app : Opium.App.t =
   |> middleware static
   |> Db.middleware
   |> middleware Route.m
+  |> Route.four_o_four
 
 let log_level = Some Logs.Debug
 
