@@ -4,7 +4,7 @@ on: [push]
 
 env:
   CACHE_IMAGE: jchavarri/ocaml_webapp
-  DOCKER_BUILDKIT: 1
+  DOCKER_BUILDKIT: 0
 
 jobs:
   build:
@@ -19,30 +19,21 @@ jobs:
         run: |
           docker build \
             --target base \
-            --cache-from $CACHE_IMAGE:base \
             --tag $CACHE_IMAGE:base \
             --file ./Dockerfile \
-            --build-arg BUILDKIT_INLINE_CACHE=1 \
             "."
       - name: Build client from dockerfile
         run: |
           docker build \
             --target client \
-            --cache-from $CACHE_IMAGE:base \
-            --cache-from $CACHE_IMAGE:client \
             --tag $CACHE_IMAGE:client \
             --file ./Dockerfile \
-            --build-arg BUILDKIT_INLINE_CACHE=1 \
             "."
       - name: Build stage from dockerfile
         run: |
           docker build \
-            --cache-from $CACHE_IMAGE:base \
-            --cache-from $CACHE_IMAGE:client \
-            --cache-from $CACHE_IMAGE:stage \
             --tag $CACHE_IMAGE:stage \
             --file ./Dockerfile \
-            --build-arg BUILDKIT_INLINE_CACHE=1 \
             "."
       - name: Push base image to docker hub
         run: docker push $CACHE_IMAGE:base
