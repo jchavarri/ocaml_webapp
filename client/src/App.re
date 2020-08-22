@@ -35,7 +35,7 @@ module Get = {
       switch (p->Js.Json.parseExn->PageAuthorExcerpts_bs.read_payload) {
       | authors => <PageAuthorExcerpts authors />
       | exception _exn =>
-        Js.log("Couldn't parse excerpts from JSON payload " ++ p);
+        Js.log("Couldn't parse authors from JSON payload " ++ p);
         <PageNotFound />;
       }
     | None => <PageNotFound /> /* TODO: call api */
@@ -44,17 +44,22 @@ module Get = {
 
 module Router = Router.Make(Get);
 let router = Routes.one_of(Router.routes);
+
 [@react.component]
 let make = () => {
   let url = ReasonReactRouter.useUrl();
   let target = url.path->Array.of_list->Js.Array2.joinWith("/");
   let payloadElement = Bindings.getElementById(Api.payload_id);
-  Js.log(payloadElement);
 
   switch (
     Routes.match'(router, ~target=Js.Global.decodeURIComponent(target))
   ) {
   | None => <PageNotFound />
-  | Some(h) => h(payloadElement->Belt.Option.map(Bindings.innerHTML))
+  | Some(handler) =>
+    let payload = payloadElement->Belt.Option.map(Bindings.innerHTML);
+    /* After processing the payload from server, it can be safely removed so other pages don't try to decode it again
+       as the client will take over navigation + data fetching through API */
+    payloadElement->Belt.Option.forEach(e => e->Bindings.remove());
+    handler(payload);
   };
 };
