@@ -11,9 +11,9 @@ module type T = sig
 
   val excerpts_add : request -> response
 
-  (* val excerpts_by_author : string -> request -> response
+  val excerpts_by_author : string -> request -> response
 
-     val excerpts : request -> response *)
+  val author_excerpts_page : request -> response
 end
 
 module Make (Get : T) = struct
@@ -27,7 +27,7 @@ module Make (Get : T) = struct
       (s "hello" / str /? nil) @--> Get.hello;
       (s "hello" /? nil) @--> Get.hello_fallback;
       (s "excerpts" / s "add" /? nil) @--> Get.excerpts_add;
-      (* (s "excerpts" / s "author" / str /? nil) @--> Get.excerpts_by_author;
-         (s "excerpts" /? nil) @--> Get.excerpts; *)
+      (s "excerpts" / s "author" / str /? nil) @--> Get.excerpts_by_author;
+      (s "excerpts" /? nil) @--> Get.author_excerpts_page;
     ]
 end

@@ -37,14 +37,14 @@ module Get = struct
 
   let excerpts_add _req = respond' @@ Content.add_excerpt_page
 
-  (* let excerpts_by_author name req =
-       let open Lwt in
-       Db.Get.excerpts_by_author name req
-       >>= respond_or_err Content.excerpts_listing_page
+  let excerpts_by_author name req =
+    let open Lwt in
+    Db.Get.excerpts_by_author name req
+    >>= respond_or_err Content.excerpts_listing_page
 
-     let excerpts req =
-       let open Lwt in
-       Db.Get.authors req >>= respond_or_err Content.author_excerpts_page *)
+  let author_excerpts_page req =
+    let open Lwt in
+    Db.Get.authors req >>= respond_or_err Content.author_excerpts_page
 end
 
 (** The POST route handlers for our app *)

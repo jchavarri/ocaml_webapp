@@ -1,7 +1,7 @@
 open Bridge;
 
 [@react.component]
-let make = (~es: list(Excerpt_t.t)) => {
+let make = (~excerpts: list(Excerpt_t.t)) => {
   let (count, setCount) = React.useState(() => 0);
   React.useEffect1(
     () => {
@@ -13,15 +13,18 @@ let make = (~es: list(Excerpt_t.t)) => {
   );
 
   let children = [
-    <h1> {React.string("Excerpts")} </h1>,
-    <p>
+    <h1 key="header"> {React.string("Excerpts")} </h1>,
+    <p key="desc">
       {React.string(
          "The HTML (including counter value) comes first from the OCaml native server"
          ++ " then is updated by React after hydration",
        )}
     </p>,
-    <p> {React.string(string_of_int(count))} </p>,
-    ...List.map(e => <Excerpt e />, es),
+    <p key="counter"> {React.string(string_of_int(count))} </p>,
+    ...List.mapi(
+         (_i, e) => <Excerpt key={string_of_int(_i)} e />,
+         excerpts,
+       ),
   ];
-  <> {children |> React.list} </>;
+  children |> React.list;
 };

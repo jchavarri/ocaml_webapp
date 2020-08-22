@@ -34,21 +34,14 @@ let basic_page ?payload content =
   in
   `Html raw_html
 
-let page_with_payload payload f =
+let page_with_payload payload elements =
   let open Html in
   basic_page
     ~payload:
       (script
-         ~a:[ a_id "page_payload"; a_mime_type "application/json" ]
-         (* todo: use atd to serialize payload *)
-         (txt
-            "{\r\n\
-            \  \"author\" : \"Hey\";\r\n\
-            \  \"excerpt\" : \"one excerpt\";\r\n\
-            \  \"source\" : \"sdfdsf\";\r\n\
-            \  \"page\" : 2;\r\n\
-             }"))
-    (f payload)
+         ~a:[ a_id Shared.Api.payload_id; a_mime_type "application/json" ]
+         (Unsafe.data payload))
+    elements
 
 let welcome_page = basic_page (Shared.PageWelcome.make ())
 
@@ -61,11 +54,15 @@ let add_excerpt_page = basic_page (Shared.PageAddExcerpt.make ())
 let excerpt_added_page (e : Shared.Excerpt_t.t) =
   basic_page (Shared.PageExcerptAdded.make ~excerpt:e)
 
-let excerpts_listing_page (es : Shared.Excerpt_t.t list) =
-  page_with_payload es (fun es -> List.hd_exn (Shared.PageExcerpts.make ~es))
+let excerpts_listing_page excerpts =
+  page_with_payload
+    (Shared.PageExcerpts_j.string_of_payload excerpts)
+    (Shared.PageExcerpts.make ~excerpts)
 
 let author_excerpts_page authors =
-  basic_page (Shared.PageAuthorExcerpts.make ~authors)
+  page_with_payload
+    (Shared.PageAuthorExcerpts_j.string_of_payload authors)
+    (Shared.PageAuthorExcerpts.make ~authors)
 
 let error_page err =
   basic_page

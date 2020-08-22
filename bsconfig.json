@@ -31,6 +31,22 @@
         {
           "name": "atd_bs",
           "edge": ["excerpt_bs.ml", "excerpt_bs.mli", ":", "../excerpt.atd"]
+        },
+        {
+          "name": "atd_t",
+          "edge": ["pageAuthorExcerpts_t.ml", "pageAuthorExcerpts_t.mli", ":", "../pageAuthorExcerpts.atd"]
+        },
+        {
+          "name": "atd_bs",
+          "edge": ["pageAuthorExcerpts_bs.ml", "pageAuthorExcerpts_bs.mli", ":", "../pageAuthorExcerpts.atd"]
+        },
+        {
+          "name": "atd_t",
+          "edge": ["pageExcerpts_t.ml", "pageExcerpts_t.mli", ":", "../pageExcerpts.atd"]
+        },
+        {
+          "name": "atd_bs",
+          "edge": ["pageExcerpts_bs.ml", "pageExcerpts_bs.mli", ":", "../pageExcerpts.atd"]
         }
       ]
     }

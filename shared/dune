@@ -5,3 +5,39 @@
   (pps tyxml-jsx))
  (flags
   (:standard -open Tyxml)))
+
+(rule
+ (targets excerpt_j.ml excerpt_j.mli)
+ (deps excerpt.atd)
+ (action
+  (run atdgen -j -j-std %{deps})))
+
+(rule
+ (targets excerpt_t.ml excerpt_t.mli)
+ (deps excerpt.atd)
+ (action
+  (run atdgen -t %{deps})))
+
+(rule
+ (targets pageAuthorExcerpts_j.ml pageAuthorExcerpts_j.mli)
+ (deps pageAuthorExcerpts.atd)
+ (action
+  (run atdgen -j -j-std %{deps})))
+
+(rule
+ (targets pageAuthorExcerpts_t.ml pageAuthorExcerpts_t.mli)
+ (deps pageAuthorExcerpts.atd)
+ (action
+  (run atdgen -t %{deps})))
+
+(rule
+ (targets pageExcerpts_j.ml pageExcerpts_j.mli)
+ (deps pageExcerpts.atd)
+ (action
+  (run atdgen -j -j-std %{deps})))
+
+(rule
+ (targets pageExcerpts_t.ml pageExcerpts_t.mli)
+ (deps pageExcerpts.atd)
+ (action
+  (run atdgen -t %{deps})))
