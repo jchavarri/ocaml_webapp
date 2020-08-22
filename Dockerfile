@@ -27,8 +27,7 @@ RUN yarn install
 COPY --from=base /home/opam/.opam/4.10/bin/atdgen /usr/local/bin/atdgen
 RUN chmod +x /usr/local/bin/atdgen
 COPY . .
-RUN yarn build && yarn webpack:production \
-    && apk del .gyp
+RUN yarn build && yarn webpack:production
 
 # Create production image
 FROM debian:buster-slim as stage
@@ -40,6 +39,6 @@ COPY --from=client /app/server/static server/static
 # Don't forget to install the dependencies, noted from
 # the previous build.
 COPY --from=base /ocaml_webapp/depexts depexts
-RUN cat depexts | xargs apk --update add && rm -rf /var/cache/apk/*
+RUN apt-get update && cat depexts | xargs apt-get install -y && rm -rf /var/lib/apt/lists/*
 
 CMD ./ocaml_webapp.exe --port=$PORT
