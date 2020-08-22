@@ -1,4 +1,4 @@
-FROM ocaml/opam2:debian-9-ocaml-4.10 as base
+FROM ocaml/opam2:alpine-3.12-ocaml-4.10 as base
 
 WORKDIR /ocaml_webapp
 
