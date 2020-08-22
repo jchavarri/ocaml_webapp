@@ -3,6 +3,16 @@
   "reason": {
     "react-jsx": 3
   },
+  "generators": [
+    {
+      "name": "atd_t",
+      "command": "dirname=$$(dirname $in) && basename=$$(basename $in .atd) && opam exec -- atdgen -t $in -o $$dirname/gen/$$basename"
+    },
+    {
+      "name": "atd_bs",
+      "command": "dirname=$$(dirname $in) && basename=$$(basename $in .atd) && opam exec -- atdgen -bs $in -o $$dirname/gen/$$basename"
+    }
+  ],
   "sources": [
     {
       "dir": "client/src",
@@ -10,6 +20,19 @@
     },
     {
       "dir": "shared"
+    },
+    {
+      "dir": "shared/gen",
+      "generators": [
+        {
+          "name": "atd_t",
+          "edge": ["excerpt_t.ml", "excerpt_t.mli", ":", "../excerpt.atd"]
+        },
+        {
+          "name": "atd_bs",
+          "edge": ["excerpt_bs.ml", "excerpt_bs.mli", ":", "../excerpt.atd"]
+        }
+      ]
     }
   ],
   "bsc-flags": ["-bs-super-errors", "-bs-no-version-header"],
@@ -21,6 +44,10 @@
   ],
   "suffix": ".bs.js",
   "namespace": true,
-  "bs-dependencies": ["@anuragsoni/routes", "reason-react"],
+  "bs-dependencies": [
+    "@ahrefs/bs-atdgen-codec-runtime",
+    "@anuragsoni/routes",
+    "reason-react"
+  ],
   "refmt": 3
 }

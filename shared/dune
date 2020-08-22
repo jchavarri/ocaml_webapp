@@ -1,6 +1,6 @@
 (library
  (name shared)
- (libraries bridge routes tyxml)
+ (libraries bridge routes tyxml atdgen-runtime)
  (preprocess
   (pps tyxml-jsx))
  (flags
