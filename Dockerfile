@@ -3,10 +3,12 @@ FROM ocaml/opam2:alpine-3.12-ocaml-4.10 as base
 WORKDIR /ocaml_webapp
 
 # Install alpine deps
+USER root
 RUN apk add \
     --no-cache \
     nodejs \
     yarn
+USER opam
 
 # Install OCaml dependencies
 COPY ocaml_webapp.opam .
