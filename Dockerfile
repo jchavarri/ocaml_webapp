@@ -10,7 +10,7 @@ RUN apk add \
     yarn \
     g++ \
     make \
-    python
+    python3
 USER opam
 
 # Install OCaml dependencies
