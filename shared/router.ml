@@ -1,3 +1,7 @@
+[@@@ocaml.warning "-44"]
+
+open Routes
+
 module type T = sig
   type request
 
@@ -16,11 +20,9 @@ module type T = sig
   val author_excerpts_page : request -> response
 end
 
+module Api = struct let author_excerpts () = s "api" / s "excerpts" /? nil end
+
 module Make (Get : T) = struct
-  [@@@ocaml.warning "-44"]
-
-  open Routes
-
   let routes =
     [
       empty @--> Get.root;

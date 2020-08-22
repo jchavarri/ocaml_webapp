@@ -64,6 +64,11 @@ let author_excerpts_page authors =
     (Shared.PageAuthorExcerpts_j.string_of_payload authors)
     (Shared.PageAuthorExcerpts.make ~authors)
 
+let author_excerpts_json authors =
+  `Json
+    (Ezjsonm.from_string
+       (Shared.PageAuthorExcerpts_j.string_of_payload authors))
+
 let error_page err =
   basic_page
     Html.[ p [ txt (Printf.sprintf "Oh no! Something went wrong: %s" err) ] ]

@@ -21,6 +21,7 @@
   "dependencies": {
     "@ahrefs/bs-atdgen-codec-runtime": "^2.0.1",
     "@anuragsoni/routes": "^0.8.0",
+    "bs-fetch": "^0.6.2",
     "react": "^16.8.1",
     "react-dom": "^16.8.1",
     "reason-react": ">=0.7.1"

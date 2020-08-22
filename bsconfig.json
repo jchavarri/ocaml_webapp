@@ -63,6 +63,7 @@
   "bs-dependencies": [
     "@ahrefs/bs-atdgen-codec-runtime",
     "@anuragsoni/routes",
+    "bs-fetch",
     "reason-react"
   ],
   "refmt": 3

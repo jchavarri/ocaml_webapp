@@ -38,7 +38,12 @@ module Get = {
         Js.log("Couldn't parse authors from JSON payload " ++ p);
         <PageNotFound />;
       }
-    | None => <PageNotFound /> /* TODO: call api */
+    | None =>
+      <Client.ApiData
+        url={Format.asprintf("%a", Routes.pp_target, Router.Api.author_excerpts())}
+        decoder=PageAuthorExcerpts_bs.read_payload
+        onOk={authors => <PageAuthorExcerpts authors />}
+      />
     };
 };
 

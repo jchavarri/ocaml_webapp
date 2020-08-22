@@ -57,6 +57,13 @@ module Post = struct
     >>= respond_or_err (fun () -> Content.excerpt_added_page excerpt)
 end
 
+(** The api route handlers for our app *)
+module Api = struct
+  let author_excerpts req =
+    let open Lwt in
+    Db.Get.authors req >>= respond_or_err Content.author_excerpts_json
+end
+
 module Router = Shared.Router.Make (Get)
 
 let get_routes = Router.routes
@@ -86,7 +93,10 @@ let create_middleware ~get_router ~post_router =
   Rock.Middleware.create ~name:"Routes" ~filter
 
 let m =
-  create_middleware ~get_router:(Routes.one_of get_routes)
+  let open Routes in
+  create_middleware
+    ~get_router:
+      (Routes.one_of ((Shared.Router.Api.author_excerpts () @--> Api.author_excerpts) :: get_routes))
     ~post_router:(Routes.one_of post_routes)
 
 let four_o_four = not_found (fun _req -> respond' @@ Content.not_found)
