@@ -3,7 +3,9 @@ open Bridge;
 [@react.component]
 let make = () => {
   <PageContainer>
-    <h1 className="font-semibold text-xl tracking-tight mb-8"> {React.string("OCaml native webapp with SSR + ReasonReact hydration")} </h1>
+    <h1 className="font-semibold text-xl tracking-tight mb-8">
+      {React.string("OCaml native webapp with SSR + ReasonReact hydration")}
+    </h1>
     <h2> {React.string("Hello")} </h2>
     <Dom.Ul cls="list-disc list-inside mb-8">
       {List.mapi(

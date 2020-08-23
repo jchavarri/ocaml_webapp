@@ -4,9 +4,20 @@ type data('a, 'b) =
   | Loading
   | Finished(Result.t('a, 'b));
 
-let get = (url, decoder) => {
+let request = (~method_=Fetch.Get, ~input=?, url, decoder) => {
   Js.Promise.(
-    Fetch.fetchWithInit(url, Fetch.RequestInit.make(~method_=Get, ()))
+    Fetch.fetchWithInit(
+      url,
+      Fetch.RequestInit.make(
+        ~method_,
+        ~body=?{
+          input->Belt.Option.map(input =>
+            input->Js.Json.stringify->Fetch.BodyInit.make
+          );
+        },
+        (),
+      ),
+    )
     |> then_(res => {
          res->Fetch.Response.status >= 400
            ? Js.log(
@@ -51,7 +62,7 @@ module FetchRender = {
     React.useEffect2(
       () => {
         setData(_ => Loading);
-        get(url, decoder)
+        request(url, decoder)
         |> Js.Promise.then_(res =>
              setData(_ => Finished(res))->Js.Promise.resolve
            )

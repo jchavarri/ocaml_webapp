@@ -6,6 +6,11 @@ module React = struct
   let useState : (unit -> 'state) -> 'state * (('state -> 'state) -> unit) =
    fun f -> f (), fun _ -> ()
 
+  let useReducer
+    : ('state -> 'action -> 'state) -> 'state -> 'state * ('action -> unit)
+    =
+   fun _ s -> s, fun _ -> ()
+
   let useEffect0 : (unit -> (unit -> unit) option) -> unit = fun _ -> ()
 
   let useEffect1 : (unit -> (unit -> unit) option) -> 'a array -> unit =
@@ -41,17 +46,21 @@ module Dom = struct
   end
 
   module Form = struct
-    let createElement ~action ~form_method ~children () =
-      form ~a:[ a_action action; a_method form_method ] children
+    let createElement ?action ?form_method ~children () =
+      form
+        ~a:([] |> opt_concat a_action action |> opt_concat a_method form_method)
+        children
   end
 
+  (** Input is needed as ReasonReact does not have a high level type for type_ attribute, it's just plain string *)
   module Input = struct
-    let createElement ~input_type ?name ?value () =
+    let createElement ?cls ~input_type ?name ?value () =
       input
         ~a:
           ([ a_input_type input_type ]
           |> opt_concat a_name name
           |> opt_concat a_value value
+          |> opt_concat (fun cls -> a_class [ cls ]) cls
           )
         ()
   end
@@ -59,7 +68,9 @@ module Dom = struct
   module P = struct let createElement ~children () = p children end
 
   module Textarea = struct
-    let createElement ~name ~value () =
-      textarea ~a:[ a_name name ] (Tyxml.Html.txt value)
+    let createElement ?cls ~name ~value () =
+      textarea
+        ~a:([ a_name name ] |> opt_concat (fun cls -> a_class [ cls ]) cls)
+        (Tyxml.Html.txt value)
   end
 end

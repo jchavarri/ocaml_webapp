@@ -25,6 +25,8 @@ module type T = sig
     val authors_with_excerpts : request -> response
 
     val excerpts_by_author : string -> request -> response
+
+    val add_excerpt : request -> response
   end
 end
 
@@ -34,6 +36,8 @@ module ApiRoutes = struct
   let authors_with_excerpts () = s "api" / s "authors" /? nil
 
   let excerpts_by_author () = s "api" / s "excerpts" / s "author" / str /? nil
+
+  let add_excerpt () = s "api" / s "excerpts" / s "add" /? nil
 end
 
 module Make (Handlers : T) = struct
@@ -50,5 +54,6 @@ module Make (Handlers : T) = struct
       `GET, PageRoutes.authors_with_excerpts () @--> Pages.authors_with_excerpts;
       `GET, ApiRoutes.authors_with_excerpts () @--> Api.authors_with_excerpts;
       `GET, ApiRoutes.excerpts_by_author () @--> Api.excerpts_by_author;
+      `POST, ApiRoutes.add_excerpt () @--> Api.add_excerpt;
     ]
 end
