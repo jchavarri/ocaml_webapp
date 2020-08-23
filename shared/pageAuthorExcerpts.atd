@@ -1,0 +1,2 @@
+type author = string
+type payload = author list

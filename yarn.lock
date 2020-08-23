@@ -2,10 +2,22 @@
 # yarn lockfile v1
 
 
+"@ahrefs/bs-atdgen-codec-runtime@^2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@ahrefs/bs-atdgen-codec-runtime/-/bs-atdgen-codec-runtime-2.0.1.tgz#9d7dff002bee1f01d0b687463e75747e5c2f8c2e"
+  integrity sha512-gmpr9XSUvKrh1ylZ4AKZIwTUojQeC4hNKSSkOtqc++txTO6iQFkLuC93D9PKH5ykMMuiFE1g5ELF7JTiRB0gGA==
+  dependencies:
+    "@glennsl/bs-json" "^5.0.0"
+
 "@anuragsoni/routes@^0.8.0":
   version "0.8.0"
   resolved "https://registry.yarnpkg.com/@anuragsoni/routes/-/routes-0.8.0.tgz#36b0e75db5ccb78443db99d8e6227d05dadafeff"
   integrity sha512-2rvAURfJjZdddK5/Xh14CdpxfmhFzejxXmDvH+7mzfB/KIxRVoYcS2FP6pb4ZB2vtXEG6jNcrtBNDvajNKFMDQ==
+
+"@glennsl/bs-json@^5.0.0":
+  version "5.0.2"
+  resolved "https://registry.yarnpkg.com/@glennsl/bs-json/-/bs-json-5.0.2.tgz#cfb85d94d370ec6dc17849e0ddb1a51eee08cfcc"
+  integrity sha512-vVlHJNrhmwvhyea14YiV4L5pDLjqw1edE3GzvMxlbPPQZVhzgO3sTWrUxCpQd2gV+CkMfk4FHBYunx9nWtBoDg==
 
 "@types/glob@^7.1.1":
   version "7.1.3"
@@ -551,6 +563,11 @@ browserify-zlib@^0.2.0:
   integrity sha512-Z942RysHXmJrhqk88FmKBVq/v5tqmSkDz7p54G/MGyjMnCFFnC79XWNbg+Vta8W6Wb2qtSZTSxIGkJrRpCFEiA==
   dependencies:
     pako "~1.0.5"
+
+bs-fetch@^0.6.2:
+  version "0.6.2"
+  resolved "https://registry.yarnpkg.com/bs-fetch/-/bs-fetch-0.6.2.tgz#37d982e9f79b9bc44c23e87ae78ccbee1f869adf"
+  integrity sha512-VXEjp8kY3vHPckaoy3d96Bx0KYjJAPLNISBwfpwMN26K6DtuZYwI2HKhx7zeHBajz1bRArfx7O8OOLcdtujMvg==
 
 bs-platform@^8.0.3:
   version "8.0.3"

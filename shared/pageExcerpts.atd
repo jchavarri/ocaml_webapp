@@ -1,0 +1,2 @@
+type excerpt <ocaml from="Excerpt" t="t"> = abstract
+type payload = excerpt list

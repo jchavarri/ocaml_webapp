@@ -10,3 +10,7 @@ Dockerfile
 .ocamlformat
 docker.yml
 node_modules
+*.bs.js
+server/static/Index.js*
+/shared/gen/*.ml*
+

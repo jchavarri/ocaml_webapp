@@ -3,6 +3,16 @@
   "reason": {
     "react-jsx": 3
   },
+  "generators": [
+    {
+      "name": "atd_t",
+      "command": "dirname=$$(dirname $in) && basename=$$(basename $in .atd) && atdgen -t $in -o $$dirname/gen/$$basename"
+    },
+    {
+      "name": "atd_bs",
+      "command": "dirname=$$(dirname $in) && basename=$$(basename $in .atd) && atdgen -bs $in -o $$dirname/gen/$$basename"
+    }
+  ],
   "sources": [
     {
       "dir": "client/src",
@@ -10,6 +20,35 @@
     },
     {
       "dir": "shared"
+    },
+    {
+      "dir": "shared/gen",
+      "generators": [
+        {
+          "name": "atd_t",
+          "edge": ["excerpt_t.ml", "excerpt_t.mli", ":", "../excerpt.atd"]
+        },
+        {
+          "name": "atd_bs",
+          "edge": ["excerpt_bs.ml", "excerpt_bs.mli", ":", "../excerpt.atd"]
+        },
+        {
+          "name": "atd_t",
+          "edge": ["pageAuthorExcerpts_t.ml", "pageAuthorExcerpts_t.mli", ":", "../pageAuthorExcerpts.atd"]
+        },
+        {
+          "name": "atd_bs",
+          "edge": ["pageAuthorExcerpts_bs.ml", "pageAuthorExcerpts_bs.mli", ":", "../pageAuthorExcerpts.atd"]
+        },
+        {
+          "name": "atd_t",
+          "edge": ["pageExcerpts_t.ml", "pageExcerpts_t.mli", ":", "../pageExcerpts.atd"]
+        },
+        {
+          "name": "atd_bs",
+          "edge": ["pageExcerpts_bs.ml", "pageExcerpts_bs.mli", ":", "../pageExcerpts.atd"]
+        }
+      ]
     }
   ],
   "bsc-flags": ["-bs-super-errors", "-bs-no-version-header"],
@@ -21,6 +60,11 @@
   ],
   "suffix": ".bs.js",
   "namespace": true,
-  "bs-dependencies": ["@anuragsoni/routes", "reason-react"],
+  "bs-dependencies": [
+    "@ahrefs/bs-atdgen-codec-runtime",
+    "@anuragsoni/routes",
+    "bs-fetch",
+    "reason-react"
+  ],
   "refmt": 3
 }

@@ -20,6 +20,7 @@ depends: [
   "routes" {>= "0.8.0" & < "0.9.0"}
   "reason" {>= "3.6.0"}
   "uri" {>= "3.1.0" & < "4.0.0"}
+  "atdgen" {>= "2.2.1" & < "2.3.0"}
   "tyxml" {dev}
   "tyxml-jsx" {dev}
   "tyxml-syntax" {dev}

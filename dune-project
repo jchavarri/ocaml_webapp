@@ -32,6 +32,7 @@
   (routes (and (>= 0.8.0) (< 0.9.0)))
   (reason (>= 3.6.0))
   (uri (and (>= 3.1.0) (< 4.0.0)))
+  (atdgen (and (>= 2.2.1) (< 2.3.0)))
 
   ;; HTML generation
   (tyxml :dev)
