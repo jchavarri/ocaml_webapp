@@ -32,21 +32,37 @@ let get = (url, decoder) => {
   );
 };
 
-module ApiData = {
+let usePrevious = value => {
+  let valueRef = React.useRef(value);
+  React.useEffect(() => {
+    valueRef.current = value;
+    None;
+  });
+  valueRef.current;
+};
+
+module FetchRender = {
   [@react.component]
-  let make = (~url, ~decoder, ~onOk) => {
+  let make = (~url, ~decoder, ~children) => {
     let (data, setData) = React.useState(() => Loading);
-    React.useEffect0(() => {
-      get(url, decoder)
-      |> Js.Promise.then_(res =>
-           setData(_ => Finished(res))->Js.Promise.resolve
-         )
-      |> ignore;
-      None;
-    });
+    let urlChanged = usePrevious(url) != url;
+    let data = urlChanged ? Loading : data;
+
+    React.useEffect2(
+      () => {
+        setData(_ => Loading);
+        get(url, decoder)
+        |> Js.Promise.then_(res =>
+             setData(_ => Finished(res))->Js.Promise.resolve
+           )
+        |> ignore;
+        None;
+      },
+      (url, decoder),
+    );
     switch (data) {
     | Loading => <div> {React.string("Loading")} </div>
-    | Finished(Ok(payload)) => onOk(payload)
+    | Finished(Ok(payload)) => children(payload)
     | Finished(Error(_)) => <div> {React.string("Error")} </div>
     };
   };

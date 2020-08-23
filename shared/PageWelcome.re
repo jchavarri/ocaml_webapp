@@ -23,7 +23,10 @@ let make = () => {
          (_i, x) => <li key={string_of_int(_i)}> x </li>,
          [
            <Link url="/excerpts/add" txt="Add Excerpt" />,
-           <Link url="/excerpts" txt="Excerpts" />,
+           <Link
+             url={Routes.sprintf(Router.PageRoutes.authors_with_excerpts())}
+             txt="Authors with excerpts"
+           />,
          ],
        )
        |> React.list}

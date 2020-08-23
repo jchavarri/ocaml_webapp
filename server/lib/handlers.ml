@@ -70,39 +70,56 @@ let excerpt_of_form_data data =
   in
   Lwt.return Shared.Excerpt_t.{ author; excerpt; source; page }
 
-(** The GET route handlers for our app *)
-module Get = struct
+(** The route handlers for our app *)
+module Handlers = struct
   type request = Request.t
 
   type response = Response.t Lwt.t
 
-  (** Defines a handler that replies to requests at the root endpoint *)
-  let root _req = respond' @@ basic_page (Shared.PageWelcome.make ())
+  module Pages = struct
+    (** Defines a handler that replies to requests at the root endpoint *)
+    let root _req = respond' @@ basic_page (Shared.PageWelcome.make ())
 
-  (** Defines a handler that takes a path parameter from the route *)
-  let hello lang _req = respond' @@ basic_page (Shared.PageHello.make ~lang)
+    (** Defines a handler that takes a path parameter from the route *)
+    let hello lang _req = respond' @@ basic_page (Shared.PageHello.make ~lang)
 
-  (** Fallback handler in case the endpoint is called without a language parameter *)
-  let hello_fallback _req =
-    respond' @@ basic_page (Shared.PageHelloFallback.make ())
+    (** Fallback handler in case the endpoint is called without a language parameter *)
+    let hello_fallback _req =
+      respond' @@ basic_page (Shared.PageHelloFallback.make ())
 
-  let excerpts_add _req = respond' @@ basic_page (Shared.PageAddExcerpt.make ())
+    let excerpts_add _req =
+      respond' @@ basic_page (Shared.PageAddExcerpt.make ())
 
-  let excerpts_by_author name req =
-    let open Lwt in
-    Db.Get.excerpts_by_author name req
-    >>= respond_or_err @@ fun excerpts ->
-        page_with_payload
-          (Shared.PageExcerpts_j.string_of_payload excerpts)
-          (Shared.PageExcerpts.make ~excerpts)
+    let excerpts_by_author name req =
+      let open Lwt in
+      Db.Get.excerpts_by_author name req
+      >>= respond_or_err @@ fun excerpts ->
+          page_with_payload
+            (Shared.PageExcerpts_j.string_of_payload excerpts)
+            (Shared.PageExcerpts.make ~excerpts)
 
-  let author_excerpts_page req =
-    let open Lwt in
-    Db.Get.authors req
-    >>= respond_or_err @@ fun authors ->
-        page_with_payload
-          (Shared.PageAuthorExcerpts_j.string_of_payload authors)
-          (Shared.PageAuthorExcerpts.make ~authors)
+    let authors_with_excerpts req =
+      let open Lwt in
+      Db.Get.authors req
+      >>= respond_or_err @@ fun authors ->
+          page_with_payload
+            (Shared.PageAuthorExcerpts_j.string_of_payload authors)
+            (Shared.PageAuthorExcerpts.make ~authors)
+  end
+
+  module Api = struct
+    let authors_with_excerpts req =
+      let open Lwt in
+      Db.Get.authors req
+      >>= respond_or_err (fun authors ->
+            json (Shared.PageAuthorExcerpts_j.string_of_payload authors))
+
+    let excerpts_by_author name req =
+      let open Lwt in
+      Db.Get.excerpts_by_author name req
+      >>= respond_or_err (fun excerpts ->
+            json (Shared.PageExcerpts_j.string_of_payload excerpts))
+  end
 end
 
 (** The POST route handlers for our app *)
@@ -116,52 +133,19 @@ module Post = struct
           basic_page (Shared.PageExcerptAdded.make ~excerpt))
 end
 
-(** The api route handlers for our app *)
-module Api = struct
-  let author_excerpts req =
-    let open Lwt in
-    Db.Get.authors req
-    >>= respond_or_err (fun authors ->
-          json (Shared.PageAuthorExcerpts_j.string_of_payload authors))
-end
+module Router = Shared.Router.Make (Handlers)
 
-module Router = Shared.Router.Make (Get)
-
-let get_routes = Router.routes
-
-let post_routes =
-  let open Routes in
-  [ (s "excerpts" / s "add" /? nil) @--> Post.excerpts_add ]
-
-let create_middleware ~get_router ~post_router =
-  let open Routes in
+let create_middleware ~router =
   let filter handler req =
     let target = Request.uri req |> Uri.path |> Uri.pct_decode in
     let meth = Request.meth req in
-    match meth with
-    | `GET ->
-      ( match match' get_router ~target with
-      | None -> handler req
-      | Some h -> h req
-      )
-    | `POST ->
-      ( match match' post_router ~target with
-      | None -> handler req
-      | Some h -> h req
-      )
-    | _ -> handler req
+    match Shared.Method_routes.match' ~meth ~target router with
+    | None -> handler req
+    | Some h -> h req
   in
   Rock.Middleware.create ~name:"Routes" ~filter
 
-let m =
-  let open Routes in
-  create_middleware
-    ~get_router:
-      (Routes.one_of
-         ((Shared.Router.Api.author_excerpts () @--> Api.author_excerpts)
-         :: get_routes
-         ))
-    ~post_router:(Routes.one_of post_routes)
+let m = create_middleware ~router:(Shared.Method_routes.one_of Router.routes)
 
 let four_o_four =
   not_found (fun _req -> respond' @@ basic_page (Shared.PageNotFound.make ()))
