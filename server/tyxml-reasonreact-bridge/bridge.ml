@@ -25,7 +25,20 @@ end
 module Dom = struct
   open Tyxml.Html
 
-  module Ul = struct let createElement ~children () = ul children end
+  let opt_concat f el list =
+    match el with
+    | None -> list
+    | Some el -> f el :: list
+
+  module Div = struct
+    let createElement ?cls ~children () =
+      div ~a:([] |> opt_concat (fun cls -> a_class [ cls ]) cls) children
+  end
+
+  module Ul = struct
+    let createElement ?cls ~children () =
+      ul ~a:([] |> opt_concat (fun cls -> a_class [ cls ]) cls) children
+  end
 
   module Form = struct
     let createElement ~action ~form_method ~children () =
@@ -33,11 +46,6 @@ module Dom = struct
   end
 
   module Input = struct
-    let opt_concat f el list =
-      match el with
-      | None -> list
-      | Some el -> f el :: list
-
     let createElement ~input_type ?name ?value () =
       input
         ~a:

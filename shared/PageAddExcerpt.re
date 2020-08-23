@@ -23,19 +23,21 @@ let make = () => {
 
   let submit = <> <Input input_type=`Submit value="Submit" /> </>;
 
-  <>
-    {<Form form_method=`Post action="/excerpts/add">
-       {List.mapi(
-          (_i, x) => <P key={string_of_int(_i)}> x </P>,
-          [
-            txtInput("author"),
-            excerptInput,
-            txtInput("source"),
-            txtInput("page"),
-            submit,
-          ],
-        )
-        |> React.list}
-     </Form>}
-  </>;
+  <PageContainer>
+    <>
+      {<Form form_method=`Post action="/excerpts/add">
+         {List.mapi(
+            (_i, x) => <P key={string_of_int(_i)}> x </P>,
+            [
+              txtInput("author"),
+              excerptInput,
+              txtInput("source"),
+              txtInput("page"),
+              submit,
+            ],
+          )
+          |> React.list}
+       </Form>}
+    </>
+  </PageContainer>;
 };

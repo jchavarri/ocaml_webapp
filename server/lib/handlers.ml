@@ -12,7 +12,8 @@ let default_head =
       link ~rel:[ `Icon ]
         ~a:[ a_mime_type "image/x-icon" ]
         ~href:"/static/favicon.ico" ();
-      link ~rel:[ `Stylesheet ] ~href:"/static/style.css" ();
+      link ~rel:[ `Stylesheet ]
+        ~href:"https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" ();
     ]
 
 (** The basic page layout, emitted as an [`Html string] which Opium can use as a
@@ -78,17 +79,17 @@ module Handlers = struct
 
   module Pages = struct
     (** Defines a handler that replies to requests at the root endpoint *)
-    let root _req = respond' @@ basic_page (Shared.PageWelcome.make ())
+    let root _req = respond' @@ basic_page ([Shared.PageWelcome.make ()])
 
     (** Defines a handler that takes a path parameter from the route *)
-    let hello lang _req = respond' @@ basic_page (Shared.PageHello.make ~lang)
+    let hello lang _req = respond' @@ basic_page ([Shared.PageHello.make ~lang])
 
     (** Fallback handler in case the endpoint is called without a language parameter *)
     let hello_fallback _req =
-      respond' @@ basic_page (Shared.PageHelloFallback.make ())
+      respond' @@ basic_page ([Shared.PageHelloFallback.make ()])
 
     let excerpts_add _req =
-      respond' @@ basic_page (Shared.PageAddExcerpt.make ())
+      respond' @@ basic_page ([Shared.PageAddExcerpt.make ()])
 
     let excerpts_by_author name req =
       let open Lwt in
@@ -96,7 +97,7 @@ module Handlers = struct
       >>= respond_or_err @@ fun excerpts ->
           page_with_payload
             (Shared.PageExcerpts_j.string_of_payload excerpts)
-            (Shared.PageExcerpts.make ~excerpts)
+            ([Shared.PageExcerpts.make ~excerpts])
 
     let authors_with_excerpts req =
       let open Lwt in
@@ -104,7 +105,7 @@ module Handlers = struct
       >>= respond_or_err @@ fun authors ->
           page_with_payload
             (Shared.PageAuthorExcerpts_j.string_of_payload authors)
-            (Shared.PageAuthorExcerpts.make ~authors)
+            ([Shared.PageAuthorExcerpts.make ~authors])
   end
 
   module Api = struct
@@ -130,7 +131,7 @@ module Post = struct
     App.urlencoded_pairs_of_body req >>= excerpt_of_form_data >>= fun excerpt ->
     Db.Update.add_excerpt excerpt req
     >>= respond_or_err (fun () ->
-          basic_page (Shared.PageExcerptAdded.make ~excerpt))
+          basic_page ([Shared.PageExcerptAdded.make ~excerpt]))
 end
 
 module Router = Shared.Router.Make (Handlers)
@@ -148,4 +149,4 @@ let create_middleware ~router =
 let m = create_middleware ~router:(Shared.Method_routes.one_of Router.routes)
 
 let four_o_four =
-  not_found (fun _req -> respond' @@ basic_page (Shared.PageNotFound.make ()))
+  not_found (fun _req -> respond' @@ basic_page ([Shared.PageNotFound.make ()]))

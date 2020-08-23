@@ -4,10 +4,16 @@ module React = {
 };
 
 module Dom = {
+  module Div = {
+    [@react.component]
+    let make = (~cls as className=?, ~children) => {
+      <div ?className> children </div>;
+    };
+  };
   module Ul = {
     [@react.component]
-    let make = (~children) => {
-      <ul> children </ul>;
+    let make = (~cls as className=?, ~children) => {
+      <ul ?className> children </ul>;
     };
   };
   module Form = {

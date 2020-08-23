@@ -26,5 +26,5 @@ let make = (~excerpts: list(Excerpt_t.t)) => {
          excerpts,
        ),
   ];
-  children |> React.list;
+  <PageContainer> {children |> React.list} </PageContainer>;
 };
