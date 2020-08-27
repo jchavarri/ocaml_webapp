@@ -1,5 +1,14 @@
 # ocaml_webapp
-A minimal example of a lightweight webapp in OCaml
+
+A minimal example of a lightweight webapp in OCaml.
+
+It features a possible organization of files to maximize code sharing between server (native OCaml) and client (BuckleScript). Some of the things shared are:
+
+- React components, which are server-side rendered with [Tyxml](https://github.com/ocsigen/tyxml) and hydrated with [ReasonReact](https://reasonml.github.io/reason-react/)
+- Routes, through the OCaml library [Routes](https://github.com/anuragsoni/routes).
+- API endpoints interface types, through library [ATD](https://github.com/ahrefs/atd), that also generates encoders / decoders automatically.
+
+Potentially, `shared` folder can contain other shared code like validation functions, data processing, etc.
 
 ### Getting started
 
@@ -21,12 +30,20 @@ Install all dependencies:
 make deps
 ```
 
-Run the server:
+Build client:
+
+```
+yarn webpack:dev
+```
+
+Build and run the server:
 ```bash
 make run
 ```
 
 Open the browser and go to http://localhost:3000/.
+
+It's also possible to get hot reloading while developing. For that, start the server (to be able to serve API requests) with `make run`, run BuckleScript in `yarn start` and then start Webpack dev server with `yarn server`.
 
 ### Run databases locally
 

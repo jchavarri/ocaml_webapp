@@ -7,7 +7,7 @@ open Lwt.Syntax
 let default_head =
   let open Html in
   head
-    (title (txt "OCaml Webapp Tutorial"))
+    (title (txt "OCaml Webapp"))
     [
       meta ~a:[ a_charset "UTF-8" ] ();
       meta
