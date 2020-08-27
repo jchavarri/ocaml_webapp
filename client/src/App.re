@@ -58,6 +58,8 @@ module Handlers = {
           {(authors => <PageAuthorExcerpts authors />)}
         </Client.FetchRender>
       };
+
+    let counter = _req => <PageCounter />;
   };
   module Api = {
     // Api routes should never be loaded from React app, show the backing page in case it happens

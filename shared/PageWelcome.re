@@ -20,7 +20,7 @@ let make = () => {
        |> React.list}
     </Dom.Ul>
     <h2> {React.string("Excerpts")} </h2>
-    <Dom.Ul cls="list-disc list-inside">
+    <Dom.Ul cls="list-disc list-inside mb-8">
       {List.mapi(
          (_i, x) => <li key={string_of_int(_i)}> x </li>,
          [
@@ -32,6 +32,17 @@ let make = () => {
          ],
        )
        |> React.list}
+    </Dom.Ul>
+    <h2> {React.string("Other examples")} </h2>
+    <Dom.Ul cls="list-disc list-inside mb-8">
+      <>
+        <li>
+          <Link
+            url={Routes.sprintf(Router.PageRoutes.counter())}
+            txt="Counter"
+          />
+        </li>
+      </>
     </Dom.Ul>
   </PageContainer>;
 };

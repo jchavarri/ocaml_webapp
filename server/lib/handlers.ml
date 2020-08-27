@@ -95,6 +95,8 @@ module Handlers = struct
           page_with_payload
             (Shared.PageAuthorExcerpts_j.string_of_payload authors)
             [ Shared.PageAuthorExcerpts.make ~authors ]
+
+    let counter _req = respond' @@ basic_page [ Shared.PageCounter.make () ]
   end
 
   module Api = struct
