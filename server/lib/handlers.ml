@@ -10,6 +10,10 @@ let default_head =
     (title (txt "OCaml Webapp Tutorial"))
     [
       meta ~a:[ a_charset "UTF-8" ] ();
+      meta
+        ~a:
+          [ a_name "viewport"; a_content "width=device-width, initial-scale=1" ]
+        ();
       link ~rel:[ `Icon ]
         ~a:[ a_mime_type "image/x-icon" ]
         ~href:"/static/favicon.ico" ();
@@ -107,9 +111,11 @@ module Handlers = struct
             json (Shared.PageExcerpts_j.string_of_payload excerpts))
 
     let add_excerpt req =
+      let open Lwt in
       let* str = App.string_of_body_exn req in
       let excerpt = Shared.Excerpt_j.t_of_string str in
-      respond' (json (Shared.Excerpt_j.string_of_t excerpt))
+      Db.Update.add_excerpt excerpt req
+      >>= respond_or_err (fun () -> json (Shared.Excerpt_j.string_of_t excerpt))
   end
 end
 

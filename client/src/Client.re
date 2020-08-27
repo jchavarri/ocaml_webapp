@@ -4,6 +4,11 @@ type data('a, 'b) =
   | Loading
   | Finished(Result.t('a, 'b));
 
+type error = [
+  | `DecodingError(option(string))
+  | `NetworkError(Js.Promise.error)
+];
+
 let request = (~method_=Fetch.Get, ~input=?, url, decoder) => {
   Js.Promise.(
     Fetch.fetchWithInit(
@@ -42,6 +47,12 @@ let request = (~method_=Fetch.Get, ~input=?, url, decoder) => {
        })
   );
 };
+
+let errorToString: error => string =
+  fun
+  | `DecodingError(Some(msg)) => Printf.sprintf("Decoding error: %s", msg)
+  | `DecodingError(None) => Printf.sprintf("Decoding error")
+  | `NetworkError(_err) => "Network error";
 
 let usePrevious = value => {
   let valueRef = React.useRef(value);
