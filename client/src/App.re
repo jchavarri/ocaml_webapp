@@ -58,11 +58,14 @@ module Handlers = {
           {(authors => <PageAuthorExcerpts authors />)}
         </Client.FetchRender>
       };
+
+    let counter = _req => <PageCounter />;
   };
   module Api = {
     // Api routes should never be loaded from React app, show the backing page in case it happens
     let excerpts_by_author = Pages.excerpts_by_author;
     let authors_with_excerpts = Pages.authors_with_excerpts;
+    let add_excerpt = _ => <PageNotFound />;
   };
 };
 

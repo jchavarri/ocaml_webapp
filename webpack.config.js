@@ -14,7 +14,7 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: "client/src/index.html",
+      template: path.join(outputDir, "index.html"),
       inject: false,
     }),
   ],

@@ -1,6 +1,7 @@
 open Core
 open Tyxml
 open Opium.Std
+open Lwt.Syntax
 
 (** A <head> component shared by all pages *)
 let default_head =
@@ -9,10 +10,15 @@ let default_head =
     (title (txt "OCaml Webapp Tutorial"))
     [
       meta ~a:[ a_charset "UTF-8" ] ();
+      meta
+        ~a:
+          [ a_name "viewport"; a_content "width=device-width, initial-scale=1" ]
+        ();
       link ~rel:[ `Icon ]
         ~a:[ a_mime_type "image/x-icon" ]
         ~href:"/static/favicon.ico" ();
-      link ~rel:[ `Stylesheet ] ~href:"/static/style.css" ();
+      link ~rel:[ `Stylesheet ]
+        ~href:"https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" ();
     ]
 
 (** The basic page layout, emitted as an [`Html string] which Opium can use as a
@@ -54,22 +60,6 @@ let respond_or_err resp = function
          Html.
            [ p [ txt (Printf.sprintf "Oh no! Something went wrong: %s" err) ] ]
 
-let excerpt_of_form_data data =
-  let find data key =
-    let open Core in
-    (* NOTE Should handle error in case of missing fields *)
-    List.Assoc.find_exn ~equal:String.equal data key |> String.concat
-  in
-  let author = find data "author"
-  and excerpt = find data "excerpt"
-  and source = find data "source"
-  and page =
-    match find data "page" with
-    | "" -> None
-    | p -> Some p
-  in
-  Lwt.return Shared.Excerpt_t.{ author; excerpt; source; page }
-
 (** The route handlers for our app *)
 module Handlers = struct
   type request = Request.t
@@ -78,17 +68,17 @@ module Handlers = struct
 
   module Pages = struct
     (** Defines a handler that replies to requests at the root endpoint *)
-    let root _req = respond' @@ basic_page (Shared.PageWelcome.make ())
+    let root _req = respond' @@ basic_page [ Shared.PageWelcome.make () ]
 
     (** Defines a handler that takes a path parameter from the route *)
-    let hello lang _req = respond' @@ basic_page (Shared.PageHello.make ~lang)
+    let hello lang _req = respond' @@ basic_page [ Shared.PageHello.make ~lang ]
 
     (** Fallback handler in case the endpoint is called without a language parameter *)
     let hello_fallback _req =
-      respond' @@ basic_page (Shared.PageHelloFallback.make ())
+      respond' @@ basic_page [ Shared.PageHelloFallback.make () ]
 
     let excerpts_add _req =
-      respond' @@ basic_page (Shared.PageAddExcerpt.make ())
+      respond' @@ basic_page [ Shared.PageAddExcerpt.make () ]
 
     let excerpts_by_author name req =
       let open Lwt in
@@ -96,7 +86,7 @@ module Handlers = struct
       >>= respond_or_err @@ fun excerpts ->
           page_with_payload
             (Shared.PageExcerpts_j.string_of_payload excerpts)
-            (Shared.PageExcerpts.make ~excerpts)
+            [ Shared.PageExcerpts.make ~excerpts ]
 
     let authors_with_excerpts req =
       let open Lwt in
@@ -104,7 +94,9 @@ module Handlers = struct
       >>= respond_or_err @@ fun authors ->
           page_with_payload
             (Shared.PageAuthorExcerpts_j.string_of_payload authors)
-            (Shared.PageAuthorExcerpts.make ~authors)
+            [ Shared.PageAuthorExcerpts.make ~authors ]
+
+    let counter _req = respond' @@ basic_page [ Shared.PageCounter.make () ]
   end
 
   module Api = struct
@@ -119,18 +111,14 @@ module Handlers = struct
       Db.Get.excerpts_by_author name req
       >>= respond_or_err (fun excerpts ->
             json (Shared.PageExcerpts_j.string_of_payload excerpts))
-  end
-end
 
-(** The POST route handlers for our app *)
-module Post = struct
-  let excerpts_add req =
-    let open Lwt in
-    (* NOTE Should handle possible error arising from invalid data *)
-    App.urlencoded_pairs_of_body req >>= excerpt_of_form_data >>= fun excerpt ->
-    Db.Update.add_excerpt excerpt req
-    >>= respond_or_err (fun () ->
-          basic_page (Shared.PageExcerptAdded.make ~excerpt))
+    let add_excerpt req =
+      let open Lwt in
+      let* str = App.string_of_body_exn req in
+      let excerpt = Shared.Excerpt_j.t_of_string str in
+      Db.Update.add_excerpt excerpt req
+      >>= respond_or_err (fun () -> json (Shared.Excerpt_j.string_of_t excerpt))
+  end
 end
 
 module Router = Shared.Router.Make (Handlers)
@@ -148,4 +136,4 @@ let create_middleware ~router =
 let m = create_middleware ~router:(Shared.Method_routes.one_of Router.routes)
 
 let four_o_four =
-  not_found (fun _req -> respond' @@ basic_page (Shared.PageNotFound.make ()))
+  not_found (fun _req -> respond' @@ basic_page [ Shared.PageNotFound.make () ])

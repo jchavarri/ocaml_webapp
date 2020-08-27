@@ -4,10 +4,16 @@ module React = {
 };
 
 module Dom = {
+  module Div = {
+    [@react.component]
+    let make = (~cls as className=?, ~children) => {
+      <div ?className> children </div>;
+    };
+  };
   module Ul = {
     [@react.component]
-    let make = (~children) => {
-      <ul> children </ul>;
+    let make = (~cls as className=?, ~children) => {
+      <ul ?className> children </ul>;
     };
   };
   module Form = {
@@ -19,8 +25,13 @@ module Dom = {
       | `Get => "GET"
       | `Post => "POST";
     [@react.component]
-    let make = (~action, ~form_method, ~children) => {
-      <form action method={stringOfMethod(form_method)}> children </form>;
+    let make = (~action=?, ~form_method=?, ~onSubmit=?, ~children) => {
+      <form
+        ?action
+        method=?{form_method->Belt.Option.map(stringOfMethod)}
+        ?onSubmit>
+        children
+      </form>;
     };
   };
   module Input = {
@@ -54,8 +65,15 @@ module Dom = {
       | `Url => "url"
       | `Week => "week";
     [@react.component]
-    let make = (~input_type, ~name=?, ~value=?) => {
-      <input type_={stringOfInputType(input_type)} ?name ?value />;
+    let make =
+        (~cls as className=?, ~input_type, ~name=?, ~value=?, ~onChange=?) => {
+      <input
+        ?className
+        type_={stringOfInputType(input_type)}
+        ?name
+        ?value
+        ?onChange
+      />;
     };
   };
   module P = {
@@ -66,8 +84,8 @@ module Dom = {
   };
   module Textarea = {
     [@react.component]
-    let make = (~name, ~onChange, ~value) => {
-      <textarea name onChange value />;
+    let make = (~cls as className=?, ~name, ~onChange=?, ~value) => {
+      <textarea ?className name ?onChange value />;
     };
   };
 };

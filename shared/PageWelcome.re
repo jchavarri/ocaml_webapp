@@ -2,10 +2,12 @@ open Bridge;
 
 [@react.component]
 let make = () => {
-  <>
-    <h1> {React.string("OCaml Webapp Tutorial")} </h1>
+  <PageContainer>
+    <h1 className="font-semibold text-xl tracking-tight mb-8">
+      {React.string("OCaml native webapp with SSR + React hydration")}
+    </h1>
     <h2> {React.string("Hello")} </h2>
-    <Dom.Ul>
+    <Dom.Ul cls="list-disc list-inside mb-8">
       {List.mapi(
          (_i, x) => <li key={string_of_int(_i)}> x </li>,
          [
@@ -18,7 +20,7 @@ let make = () => {
        |> React.list}
     </Dom.Ul>
     <h2> {React.string("Excerpts")} </h2>
-    <Dom.Ul>
+    <Dom.Ul cls="list-disc list-inside mb-8">
       {List.mapi(
          (_i, x) => <li key={string_of_int(_i)}> x </li>,
          [
@@ -31,5 +33,16 @@ let make = () => {
        )
        |> React.list}
     </Dom.Ul>
-  </>;
+    <h2> {React.string("Other examples")} </h2>
+    <Dom.Ul cls="list-disc list-inside mb-8">
+      <>
+        <li>
+          <Link
+            url={Routes.sprintf(Router.PageRoutes.counter())}
+            txt="Counter"
+          />
+        </li>
+      </>
+    </Dom.Ul>
+  </PageContainer>;
 };

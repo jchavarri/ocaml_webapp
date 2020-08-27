@@ -2,5 +2,5 @@ open Bridge;
 
 [@react.component]
 let make = () => {
-  <> <p> {React.string("Hiya")} </p> </>;
+  <PageContainer> <> <p> {React.string("Hiya")} </p> </> </PageContainer>;
 };
