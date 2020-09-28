@@ -34,11 +34,7 @@ module Handlers = {
             authorName,
           )}
           decoder=PageExcerpts_bs.read_payload>
-          {(
-             excerpts => {
-               <PageExcerpts excerpts />;
-             }
-           )}
+          {(excerpts => <PageExcerpts excerpts />)}
         </Client.FetchRender>
       };
 
